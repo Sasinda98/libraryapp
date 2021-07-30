@@ -17,6 +17,9 @@ public class Book {
     @ManyToMany(mappedBy = "borrowedBooks")
     private Set<User> borrowers = new HashSet<>();
 
+    @OneToMany(mappedBy = "book")
+    private Set<Review> reviews = new HashSet<>();
+
     public Book() {
     }
 
