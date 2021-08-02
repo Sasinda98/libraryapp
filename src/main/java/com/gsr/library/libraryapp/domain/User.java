@@ -22,8 +22,7 @@ public class User {
     public User() {
     }
 
-    public User(Long userID, String firstName, String lastName) {
-        this.userID = userID;
+    public User(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }

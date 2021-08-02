@@ -24,8 +24,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(Long bookID, String title, String category, int quantity, Integer isbn) {
-        this.bookID = bookID;
+    public Book(String title, String category, int quantity, Integer isbn) {
         this.title = title;
         this.category = category;
         this.quantity = quantity;
