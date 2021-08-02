@@ -13,7 +13,7 @@ public class Book {
     private String title;
     private String category;
     private int quantity;
-    private Integer ISBN;
+    private Integer isbn;
 
     @ManyToMany(mappedBy = "borrowedBooks")
     private Set<User> borrowers = new HashSet<>();
@@ -24,11 +24,12 @@ public class Book {
     public Book() {
     }
 
-    public Book(Long bookID, String title, String category, int quantity) {
+    public Book(Long bookID, String title, String category, int quantity, Integer isbn) {
         this.bookID = bookID;
         this.title = title;
         this.category = category;
         this.quantity = quantity;
+        this.isbn = isbn;
     }
 
     public Long getBookID() {
@@ -55,12 +56,12 @@ public class Book {
         this.category = category;
     }
 
-    public Integer getISBN() {
-        return ISBN;
+    public Integer getIsbn() {
+        return isbn;
     }
 
-    public void setISBN(Integer ISBN) {
-        this.ISBN = ISBN;
+    public void setIsbn(Integer isbn) {
+        this.isbn = isbn;
     }
 
     @Override
@@ -83,7 +84,7 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", category='" + category + '\'' +
                 ", quantity=" + quantity +
-                ", ISBN=" + ISBN +
+                ", ISBN=" + isbn +
                 '}';
     }
 }
