@@ -2,6 +2,7 @@ package com.gsr.library.libraryapp.controller;
 
 import com.gsr.library.libraryapp.domain.Book;
 import com.gsr.library.libraryapp.repositories.BookRepository;
+import com.gsr.library.libraryapp.services.BookService;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -9,13 +10,13 @@ import java.util.Set;
 
 @Controller
 public class BookController {
-    private final BookRepository bookRepository;
+    private final BookService bookService;
 
-    public BookController(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     public List<Book> getBooks() {
-        return (List<Book>) bookRepository.findAll();
+        return (List<Book>) bookService.getBooks();
     }
 }
