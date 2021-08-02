@@ -1,5 +1,7 @@
 package com.gsr.library.libraryapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -53,6 +55,22 @@ public class Book {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Set<User> getBorrowers() {
+        return borrowers;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
     }
 
     public Integer getIsbn() {

@@ -1,7 +1,5 @@
 package com.gsr.library.libraryapp.domain;
 
-import org.graalvm.compiler.lir.LIRInstruction;
-
 import javax.persistence.*;
 import java.util.Objects;
 

@@ -1,5 +1,7 @@
 package com.gsr.library.libraryapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -14,6 +16,7 @@ public class User {
     private String lastName;
 
     @ManyToMany
+    @JsonIgnore
     private Set<Book> borrowedBooks = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
@@ -53,10 +56,6 @@ public class User {
 
     public Set<Book> getBorrowedBooks() {
         return borrowedBooks;
-    }
-
-    public void setBorrowedBooks(Set<Book> borrowedBooks) {
-        this.borrowedBooks = borrowedBooks;
     }
 
     @Override
