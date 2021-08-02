@@ -13,6 +13,7 @@ public class Book {
     private String title;
     private String category;
     private int quantity;
+    private Integer ISBN;
 
     @ManyToMany(mappedBy = "borrowedBooks")
     private Set<User> borrowers = new HashSet<>();
@@ -54,6 +55,14 @@ public class Book {
         this.category = category;
     }
 
+    public Integer getISBN() {
+        return ISBN;
+    }
+
+    public void setISBN(Integer ISBN) {
+        this.ISBN = ISBN;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,6 +83,7 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", category='" + category + '\'' +
                 ", quantity=" + quantity +
+                ", ISBN=" + ISBN +
                 '}';
     }
 }
