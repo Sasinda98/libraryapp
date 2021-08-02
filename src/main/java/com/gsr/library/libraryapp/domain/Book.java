@@ -12,7 +12,7 @@ public class Book {
     private Long bookID;
     private String title;
     private String category;
-    private int quantity;
+    private Integer quantity;
     private Integer isbn;
 
     @ManyToMany(mappedBy = "borrowedBooks")
@@ -24,7 +24,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title, String category, int quantity, Integer isbn) {
+    public Book(String title, String category, Integer quantity, Integer isbn) {
         this.title = title;
         this.category = category;
         this.quantity = quantity;
