@@ -14,8 +14,10 @@ public class User {
     private Long userID;
     private String firstName;
     private String lastName;
+    private String email;
 
     @ManyToMany
+    @JoinTable(name = "users_books", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
     @JsonIgnore
     private Set<Book> borrowedBooks = new HashSet<>();
 
@@ -25,9 +27,10 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName) {
+    public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
     }
 
     public Long getUserID() {
@@ -77,6 +80,7 @@ public class User {
                 "userID=" + userID +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

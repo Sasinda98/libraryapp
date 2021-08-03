@@ -36,9 +36,9 @@ public class CMDRunner implements CommandLineRunner {
         Book b6 = new Book("Sherlock Holmes", "Mystery", 8, 6789);
 
 
-        User u1 = new User("Gayal", "Rupasinghe");
-        User u2 = new User("John", "Doe");
-        User u3 = new User("Lewis", "Hamilton");
+        User u1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
+        User u2 = new User("John", "Doe", "john@domain.com");
+        User u3 = new User("Lewis", "Hamilton", "lewis@domain.com");
 
         b1.getBorrowers().add(u1);
         u1.getBorrowedBooks().add(b1);
