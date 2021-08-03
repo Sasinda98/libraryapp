@@ -10,5 +10,5 @@ public interface BookRepository extends CrudRepository<Book, Long> {
             "ELSE FALSE " +
             "END " +
             "FROM Book b WHERE b.bookID = ?1")
-    boolean bookExistsByID(Long bookID);
+    Boolean bookExistsByID(Long bookID);
 }
