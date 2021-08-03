@@ -15,6 +15,8 @@ public class Book {
     private String title;
     private String category;
     private Integer quantity;
+
+    @Column(unique = true)
     private Integer isbn;
 
     @ManyToMany(mappedBy = "borrowedBooks")

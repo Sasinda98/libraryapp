@@ -14,6 +14,8 @@ public class User {
     private Long userID;
     private String firstName;
     private String lastName;
+
+    @Column(unique = true)
     private String email;
 
     @ManyToMany
