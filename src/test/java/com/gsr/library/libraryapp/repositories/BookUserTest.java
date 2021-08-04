@@ -3,6 +3,7 @@ package com.gsr.library.libraryapp.repositories;
 import com.gsr.library.libraryapp.domain.Book;
 import com.gsr.library.libraryapp.domain.User;
 import com.sun.tools.javac.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -19,23 +20,32 @@ public class BookUserTest {
     private final BookRepository testBookRepository;
     private final UserRepository testUserRepository;
 
+    private Book book1 = new Book("Spring Framework for Dummies", "Educational", 1, 1111);
+    private Book book2 = new Book("JPA for Dummies", "Educational", 3, 2222);
+    private User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
+    private User user2 = new User("John", "Doe", "john.doe@domain.com");
+
     @Autowired
     public BookUserTest(BookRepository testBookRepository, UserRepository testUserRepository) {
         this.testBookRepository = testBookRepository;
         this.testUserRepository = testUserRepository;
     }
 
-    @Test
-    void getBorrowersForABookByBookID() {
-        //given
-        Book book1 = new Book("Spring Framework for Dummies", "Educational", 1, 1111);
-        Book book2 = new Book("JPA for Dummies", "Educational", 3, 2222);
-        User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
+    @BeforeEach
+    void setUp() {
+        user1.getBorrowedBooks().add(book1);
+        book1.getBorrowers().add(user1);
+
         user1.getBorrowedBooks().add(book1);
         book1.getBorrowers().add(user1);
 
         testUserRepository.save(user1);
         testBookRepository.saveAll(List.of(book1, book2));
+    }
+
+    @Test
+    void getBorrowersForABookByBookID() {
+        //given -> see setUp()
 
         //when
         ArrayList<User> book1Borrowers = (ArrayList<User>) testBookRepository.getBorrowersForABookByBookID(book1.getBookID());
@@ -58,16 +68,7 @@ public class BookUserTest {
 
     @Test
     void getBooksBorrowedByUserID() {
-        //given
-        Book book1 = new Book("Spring Framework for Dummies", "Educational", 1, 1111);
-        User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
-        User user2 = new User("John", "Doe", "john.doe@domain.com");
-
-        user1.getBorrowedBooks().add(book1);
-        book1.getBorrowers().add(user1);
-
-        testUserRepository.saveAll(List.of(user1, user2));
-        testBookRepository.save(book1);
+        //given -> see setUp()
 
         //when
         ArrayList<Book> user1Books = (ArrayList<Book>) testUserRepository.getBooksBorrowedByUserID(user1.getUserID());
