@@ -1,6 +1,7 @@
 package com.gsr.library.libraryapp.services;
 
 import com.gsr.library.libraryapp.domain.User;
+import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +24,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserByID(Long userID) {
         return userRepository.findById(userID);
+    }
+
+    @Override
+    public void updateUser(User user) throws OperationStoppedException {
+        //check for user.
+        Optional<User> optionalUser = userRepository.findById(user.getUserID());
+
+        if(!optionalUser.isPresent())
+            throw new OperationStoppedException("User not found to update details.");
+
+        userRepository.save(user);
     }
 }
