@@ -229,7 +229,8 @@ class BookServiceImplTest {
     @Test
     void borrowBook(){
         //given
-        Book book1 = new Book("Garry", "Fiction", 3, 1234);
+        Integer originalBookQty = 3;
+        Book book1 = new Book("Garry", "Fiction", originalBookQty, 1234);
         User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
         user1.setUserID(1L);
         book1.setBookID(1L);
@@ -251,6 +252,8 @@ class BookServiceImplTest {
         verify(bookRepository).save(bookCaptor.capture());
         Book capturedBook1 = bookCaptor.getValue();
         assertThat(capturedBook1).isEqualTo(book1);
+        //check if qty actually decreased.
+        assertThat(capturedBook1.getQuantity()).isEqualTo(originalBookQty-1);
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         verify(userService).updateUser(userCaptor.capture());

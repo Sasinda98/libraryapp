@@ -91,6 +91,7 @@ public class BookServiceImpl implements BookService{
         User user = optionalUser.get();
         Book book = optionalBook.get();
 
+        book.setQuantity(book.getQuantity() - 1);
         user.getBorrowedBooks().add(book);
         book.getBorrowers().add(user);
 
