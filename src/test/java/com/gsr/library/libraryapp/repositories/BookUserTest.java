@@ -36,10 +36,7 @@ public class BookUserTest {
         user1.getBorrowedBooks().add(book1);
         book1.getBorrowers().add(user1);
 
-        user1.getBorrowedBooks().add(book1);
-        book1.getBorrowers().add(user1);
-
-        testUserRepository.save(user1);
+        testUserRepository.saveAll(List.of(user1, user2));
         testBookRepository.saveAll(List.of(book1, book2));
     }
 
