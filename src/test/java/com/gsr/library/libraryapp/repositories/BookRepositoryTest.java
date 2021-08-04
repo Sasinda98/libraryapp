@@ -21,27 +21,6 @@ class BookRepositoryTest {
     }
 
     @Test
-    void checkForABookThatExistsByID() {
-        //given
-        Book book = new Book("Spring Framework for Dummies", "Educational", 1,1111);
-        Long bookID = testBookRepository.save(book).getBookID();
-        //when
-        boolean bookExists = testBookRepository.bookExistsByID(bookID);
-        //then
-        assertThat(bookExists).isTrue();
-    }
-
-    @Test
-    void checkForABookThatDoesNotExistsByID() {
-        //given
-        Long bookID = 1L;
-        //when
-        boolean bookExists = testBookRepository.bookExistsByID(bookID);
-        //then
-        assertThat(bookExists).isFalse();
-    }
-
-    @Test
     void searchForBookByTitleExactMatch() {
         //given
         Book book1 = new Book("Spring Framework for Dummies", "Educational", 1, 1111);

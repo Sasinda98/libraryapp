@@ -6,11 +6,12 @@ import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookService {
     List<Book> getAllBooks();
 
-    Boolean bookExistsByID(Long bookID);
+    Optional<Book> bookExistsByID(Long bookID);
 
     Boolean isBookBorrowedByUser(Long userID, Long bookID);
 

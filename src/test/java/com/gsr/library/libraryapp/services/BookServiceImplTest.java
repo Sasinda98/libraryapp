@@ -73,7 +73,7 @@ class BookServiceImplTest {
 
         //then
         ArgumentCaptor<Long> bookIDCaptor = ArgumentCaptor.forClass(Long.class);
-        verify(bookRepository).bookExistsByID(bookIDCaptor.capture());
+        verify(bookRepository).findById(bookIDCaptor.capture());
 
         Long capturedBookID = bookIDCaptor.getValue();
 

@@ -25,8 +25,8 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public Boolean bookExistsByID(Long bookID) {
-        return bookRepository.bookExistsByID(bookID);
+    public Optional<Book> bookExistsByID(Long bookID) {
+        return bookRepository.findById(bookID);
     }
 
     @Override
