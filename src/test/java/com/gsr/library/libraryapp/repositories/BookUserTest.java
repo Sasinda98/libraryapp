@@ -82,4 +82,17 @@ public class BookUserTest {
         assertThat(user1BookCount).isEqualTo(1L);
         assertThat(user2BookCount).isEqualTo(0L);
     }
+
+    @Test
+    void isBookBorrowedByUser(){
+        //given -> see setUp()
+
+        //when
+        Boolean isBookBorrowedByUser1 = testBookRepository.isBookBorrowedByUser(user1.getUserID(), book1.getBookID());
+        Boolean isBookBorrowedByUser2 = testBookRepository.isBookBorrowedByUser(user2.getUserID(), book1.getBookID());
+
+        //then
+        assertThat(isBookBorrowedByUser1).isTrue();
+        assertThat(isBookBorrowedByUser2).isFalse();
+    }
 }

@@ -22,4 +22,13 @@ public interface BookRepository extends CrudRepository<Book, Long> {
     @Query(value = "SELECT u FROM User u\n" +
         "JOIN u.borrowedBooks b WHERE b.bookID = ?1")
     List<User> getBorrowersForABookByBookID(Long bookID);
+
+    @Query(value = "SELECT CASE WHEN COUNT(u) > 0 \n" +
+            "THEN TRUE \n" +
+            "ELSE FALSE \n" +
+            "END\n" +
+            "FROM User u \n" +
+            "JOIN u.borrowedBooks b  \n" +
+            "WHERE u.userID = ?1 AND b.bookID = ?2")
+    Boolean isBookBorrowedByUser(Long userID, Long bookID);
 }
