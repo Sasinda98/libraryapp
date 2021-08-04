@@ -4,6 +4,7 @@ import com.gsr.library.libraryapp.domain.Book;
 import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
+import com.gsr.library.libraryapp.micellaneous.Validator;
 import com.gsr.library.libraryapp.repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,9 @@ public class BookServiceImpl implements BookService{
         }
 
         //Implement validation here.
+        if(!Validator.getInstance().isBookValid(book)){
+            throw new ValidationException("Invalid book details.");
+        }
 
         bookRepository.save(book);
     }
