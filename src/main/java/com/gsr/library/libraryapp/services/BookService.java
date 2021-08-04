@@ -18,4 +18,8 @@ public class BookService {
     public List<Book> getAllBooks() {
         return (List<Book>) bookRepository.findAll();
     }
+
+    List<Book> searchForBookByTitle(String title){
+        return (List<Book>) bookRepository.searchForBookByTitle(title);
+    }
 }
