@@ -6,11 +6,8 @@ import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 import com.gsr.library.libraryapp.micellaneous.Validator;
 import com.gsr.library.libraryapp.repositories.BookRepository;
-import com.gsr.library.libraryapp.repositories.UserRepository;
-import org.graalvm.compiler.lir.amd64.AMD64BinaryConsumer;
 import org.springframework.stereotype.Service;
 
-import javax.naming.OperationNotSupportedException;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,6 +100,24 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public void returnBook(Long userID, Long bookID) throws OperationStoppedException {
+        Optional<User> optionalUser = userService.getUserByID(userID);
+        Optional<Book> optionalBook = bookRepository.findById(bookID);
+        Boolean isBorrowed = bookRepository.isBookBorrowedByUser(userID, bookID);
 
+        if(!isBorrowed)
+            throw new OperationStoppedException("You can only return borrowed books.");
+        if(!optionalUser.isPresent() || !optionalBook.isPresent())
+            throw new OperationStoppedException("User or book being returned does not exist.");
+
+        //Green light to return.
+        User user = optionalUser.get();
+        Book book = optionalBook.get();
+
+        book.setQuantity(book.getQuantity() + 1);
+        user.getBorrowedBooks().remove(book);
+        book.getBorrowers().remove(user);
+
+        bookRepository.save(book);
+        userService.updateUser(user);
     }
 }
