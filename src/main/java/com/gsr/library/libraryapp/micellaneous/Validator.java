@@ -21,9 +21,9 @@ public class Validator {
     public Boolean isBookValid(Book book){
         Boolean isPropertiesValid = !book.getCategory().isEmpty()
                 && !book.getTitle().isEmpty()
-                && !(book.getIsbn() > 0)
-                && !(book.getQuantity() >= 0)
-                && !(book.getBookID() >= 0) ;
+                && (book.getIsbn() > 0)
+                && (book.getQuantity() >= 0)
+                && (book.getBookID() >= 0) ;
         return isPropertiesValid;
     }
 }
