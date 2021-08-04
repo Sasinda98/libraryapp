@@ -1,10 +1,13 @@
 package com.gsr.library.libraryapp.services;
 
 import com.gsr.library.libraryapp.domain.Book;
+import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 import com.gsr.library.libraryapp.repositories.BookRepository;
+import com.gsr.library.libraryapp.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -26,11 +29,14 @@ class BookServiceImplTest {
     @Mock
     private BookRepository bookRepository;
     private BookServiceImpl testBookServiceImpl;
+    @Mock
+    private UserService userService;
+
 
     @BeforeEach
     void setUp() {
         //Provide the mocked version of book repository to the service.
-        testBookServiceImpl = new BookServiceImpl(bookRepository);
+        testBookServiceImpl = new BookServiceImpl(bookRepository, userService);
     }
 
     /**
@@ -221,4 +227,108 @@ class BookServiceImplTest {
         assertThat(capturedBookID).isEqualTo(bookID);
         assertThat(capturedUserID).isEqualTo(userID);
     }
+
+    @Test
+    void borrowBook(){
+        //given
+        Book book1 = new Book("Garry", "Fiction", 3, 1234);
+        User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
+        user1.setUserID(1L);
+        book1.setBookID(1L);
+
+        //user and book both exist.
+        Optional<User> optionalUser1 = Optional.of(user1);
+        Optional<Book> optionalBook1 = Optional.of(book1);
+        given(userService.getUserByID(user1.getUserID())).willReturn(optionalUser1);
+        given(bookRepository.findById(book1.getBookID())).willReturn(optionalBook1);
+
+        //book is not already borrowed by user.
+        given(bookRepository.isBookBorrowedByUser(user1.getUserID(), book1.getBookID())).willReturn(false);
+
+        //when
+        testBookServiceImpl.borrowBook(user1.getUserID(), book1.getBookID());
+
+        //then
+        ArgumentCaptor<Book> bookCaptor = ArgumentCaptor.forClass(Book.class);
+        verify(bookRepository).save(bookCaptor.capture());
+        Book capturedBook1 = bookCaptor.getValue();
+        assertThat(capturedBook1).isEqualTo(book1);
+
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+        verify(userService).updateUser(userCaptor.capture());
+        User capturedUser1 = userCaptor.getValue();
+        assertThat(capturedUser1).isEqualTo(user1);
+    }
+
+    @Test
+    void borrowBookThrowsOperationStoppedException1(){
+        //given
+        Book book1 = new Book("Garry", "Fiction", 3, 1234);
+        User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
+        user1.setUserID(1L);
+        book1.setBookID(1L);
+
+        //User doesn't exist, book exists.
+        Optional<User> optionalUser1 = Optional.empty();
+        Optional<Book> optionalBook1 = Optional.of(book1);
+        given(userService.getUserByID(user1.getUserID())).willReturn(optionalUser1);
+        given(bookRepository.findById(book1.getBookID())).willReturn(optionalBook1);
+
+        //book is not already borrowed by user.
+        given(bookRepository.isBookBorrowedByUser(user1.getUserID(), book1.getBookID())).willReturn(false);
+
+        //when and then
+        assertThatThrownBy(() -> testBookServiceImpl.borrowBook(user1.getUserID(), book1.getBookID()) )
+                .isExactlyInstanceOf(OperationStoppedException.class)
+                .hasMessage("User or book specified does not exist.");
+    }
+
+    @Test
+    void borrowBookThrowsOperationStoppedException2(){
+        //given
+        Book book1 = new Book("Garry", "Fiction", 3, 1234);
+        User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
+        user1.setUserID(1L);
+        book1.setBookID(1L);
+
+        //User and book both exist.
+        Optional<User> optionalUser1 = Optional.of(user1);
+        Optional<Book> optionalBook1 = Optional.of(book1);
+        given(userService.getUserByID(user1.getUserID())).willReturn(optionalUser1);
+        given(bookRepository.findById(book1.getBookID())).willReturn(optionalBook1);
+
+        //book is already borrowed by user.
+        given(bookRepository.isBookBorrowedByUser(user1.getUserID(), book1.getBookID())).willReturn(true);
+
+        //when and then
+        assertThatThrownBy(() -> testBookServiceImpl.borrowBook(user1.getUserID(), book1.getBookID()) )
+                .isExactlyInstanceOf(OperationStoppedException.class)
+                .hasMessage("Book already borrowed.");
+    }
+
+    @Test
+    void borrowBookThrowsOperationStoppedException3(){
+        //given
+        //NOTE: BOOK QUANTITY IS ZERO HERE
+        Book book1 = new Book("Garry", "Fiction", 0, 1234);
+        User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
+        user1.setUserID(1L);
+        book1.setBookID(1L);
+
+        //User and book both exist.
+        Optional<User> optionalUser1 = Optional.of(user1);
+        Optional<Book> optionalBook1 = Optional.of(book1);
+        given(userService.getUserByID(user1.getUserID())).willReturn(optionalUser1);
+        given(bookRepository.findById(book1.getBookID())).willReturn(optionalBook1);
+
+        //book is not already borrowed by user.
+        given(bookRepository.isBookBorrowedByUser(user1.getUserID(), book1.getBookID())).willReturn(false);
+
+        //when and then
+        assertThatThrownBy(() -> testBookServiceImpl.borrowBook(user1.getUserID(), book1.getBookID()) )
+                .isExactlyInstanceOf(OperationStoppedException.class)
+                .hasMessage("Book is not available to borrow, quantity is 0.");
+    }
+
+
 }

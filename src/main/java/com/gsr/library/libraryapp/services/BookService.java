@@ -22,4 +22,8 @@ public interface BookService {
     void updateBook(Book book) throws ValidationException, OperationStoppedException;
 
     void deleteBook(Long bookID) throws OperationStoppedException;
+
+    void borrowBook(Long userID, Long bookID) throws OperationStoppedException;
+
+    void returnBook(Long userID, Long bookID) throws OperationStoppedException;
 }

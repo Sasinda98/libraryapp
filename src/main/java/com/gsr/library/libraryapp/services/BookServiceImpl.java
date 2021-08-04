@@ -6,8 +6,11 @@ import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 import com.gsr.library.libraryapp.micellaneous.Validator;
 import com.gsr.library.libraryapp.repositories.BookRepository;
+import com.gsr.library.libraryapp.repositories.UserRepository;
+import org.graalvm.compiler.lir.amd64.AMD64BinaryConsumer;
 import org.springframework.stereotype.Service;
 
+import javax.naming.OperationNotSupportedException;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,9 +18,11 @@ import java.util.Optional;
 public class BookServiceImpl implements BookService{
 
     private final BookRepository bookRepository;
+    private final UserService userService;
 
-    public BookServiceImpl(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository, UserService userService) {
         this.bookRepository = bookRepository;
+        this.userService = userService;
     }
 
     public List<Book> getAllBooks() {
@@ -68,5 +73,36 @@ public class BookServiceImpl implements BookService{
         }
 
         bookRepository.delete(bookOptional.get());
+    }
+
+    @Override
+    public void borrowBook(Long userID, Long bookID) throws OperationStoppedException {
+        Optional<User> optionalUser = userService.getUserByID(userID);
+        Optional<Book> optionalBook = bookRepository.findById(bookID);
+        Boolean isBorrowed = bookRepository.isBookBorrowedByUser(userID, bookID);
+
+        if(!optionalUser.isPresent() || !optionalBook.isPresent())
+            throw new OperationStoppedException("User or book specified does not exist.");
+        if(isBorrowed)
+            throw new OperationStoppedException("Book already borrowed.");
+
+        Boolean isBookAvailForBorrow = optionalBook.get().getQuantity() > 0;
+        if(!isBookAvailForBorrow)
+            throw new OperationStoppedException("Book is not available to borrow, quantity is 0.");
+
+        //Green light to borrow.
+        User user = optionalUser.get();
+        Book book = optionalBook.get();
+
+        user.getBorrowedBooks().add(book);
+        book.getBorrowers().add(user);
+
+        bookRepository.save(book);
+        userService.updateUser(user);
+    }
+
+    @Override
+    public void returnBook(Long userID, Long bookID) throws OperationStoppedException {
+
     }
 }
