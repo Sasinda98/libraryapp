@@ -1,5 +1,6 @@
 package com.gsr.library.libraryapp.repositories;
 
+import com.gsr.library.libraryapp.domain.Book;
 import com.gsr.library.libraryapp.domain.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -22,4 +23,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
             "END " +
             "FROM User u WHERE u.userID = ?1")
     Boolean checkIfUserExistsByID(Long id);
+
+    @Query(value = "SELECT b FROM Book b\n" +
+            "JOIN b.borrowers u WHERE u.userID = ?1")
+    List<Book> getBooksBorrowedByUserID(Long userID);
 }

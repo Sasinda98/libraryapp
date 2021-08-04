@@ -55,4 +55,33 @@ public class BookUserTest {
         assertThat(borrowerCountBook1).isEqualTo(1L);
         assertThat(borrowerCountBook2).isEqualTo(0L);
     }
+
+    @Test
+    void getBooksBorrowedByUserID() {
+        //given
+        Book book1 = new Book("Spring Framework for Dummies", "Educational", 1, 1111);
+        User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
+        User user2 = new User("John", "Doe", "john.doe@domain.com");
+
+        user1.getBorrowedBooks().add(book1);
+        book1.getBorrowers().add(user1);
+
+        testUserRepository.saveAll(List.of(user1, user2));
+        testBookRepository.save(book1);
+
+        //when
+        ArrayList<Book> user1Books = (ArrayList<Book>) testUserRepository.getBooksBorrowedByUserID(user1.getUserID());
+        ArrayList<Book> user2Books = (ArrayList<Book>) testUserRepository.getBooksBorrowedByUserID(user2.getUserID());
+
+        Long user1BookCount = user1Books
+                .stream()
+                .filter(book -> book1.getBookID().equals(book.getBookID()))
+                .count();
+        Long user2BookCount = user2Books
+                .stream()
+                .count();
+        //then
+        assertThat(user1BookCount).isEqualTo(1L);
+        assertThat(user2BookCount).isEqualTo(0L);
+    }
 }
