@@ -22,21 +22,21 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public Boolean bookExistsByID(Long bookID) {
-        return null;
+        return bookRepository.bookExistsByID(bookID);
     }
 
     @Override
     public Boolean isBookBorrowedByUser(Long userID, Long bookID) {
-        return null;
+        return bookRepository.isBookBorrowedByUser(userID,bookID);
     }
 
     public List<Book> searchForBookByTitle(String title){
-        return (List<Book>) bookRepository.searchForBookByTitle(title);
+        return bookRepository.searchForBookByTitle(title);
     }
 
     @Override
     public List<User> getBorrowersForABookByBookID(Long bookID) {
-        return null;
+        return bookRepository.getBorrowersForABookByBookID(bookID);
     }
 
 }
