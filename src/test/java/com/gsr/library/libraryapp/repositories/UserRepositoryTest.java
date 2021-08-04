@@ -39,24 +39,4 @@ class UserRepositoryTest {
         assertThat(userExists).isFalse();
     }
 
-    @Test
-    void checkForAUserThatExistsByID() {
-        //given
-        User u1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
-        testUserRepository.save(u1);
-        //when
-        boolean userExists = testUserRepository.checkIfUserExistsByID(u1.getUserID());
-        //then
-        assertThat(userExists).isTrue();
-    }
-
-    @Test
-    void checkForAUserThatDoesNotExistByID() {
-        //given
-        Long userID = 1L;
-        //when
-        boolean userExists = testUserRepository.checkIfUserExistsByID(userID);
-        //then
-        assertThat(userExists).isFalse();
-    }
 }

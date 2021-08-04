@@ -17,13 +17,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
             "FROM User u WHERE u.email = ?1")
     Boolean checkIfUserExistByEmail(String email);
 
-    @Query(value = "SELECT CASE WHEN COUNT(u) > 0 " +
-            "THEN TRUE " +
-            "ELSE FALSE " +
-            "END " +
-            "FROM User u WHERE u.userID = ?1")
-    Boolean checkIfUserExistsByID(Long id);
-
     @Query(value = "SELECT b FROM Book b\n" +
             "JOIN b.borrowers u WHERE u.userID = ?1")
     List<Book> getBooksBorrowedByUserID(Long userID);
