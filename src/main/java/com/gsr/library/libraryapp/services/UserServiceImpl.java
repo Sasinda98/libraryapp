@@ -1,5 +1,6 @@
 package com.gsr.library.libraryapp.services;
 
+import com.gsr.library.libraryapp.domain.Book;
 import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.repositories.UserRepository;
@@ -35,5 +36,16 @@ public class UserServiceImpl implements UserService {
             throw new OperationStoppedException("User not found to update details.");
 
         userRepository.save(user);
+    }
+
+    @Override
+    public List<Book> getBooksBorrowedByUserID(Long userID) throws OperationStoppedException {
+        //check for user.
+        Optional<User> optionalUser = userRepository.findById(userID);
+
+        if(!optionalUser.isPresent())
+            throw new OperationStoppedException("No such user to present borrowed info.");
+
+        return userRepository.getBooksBorrowedByUserID(userID);
     }
 }

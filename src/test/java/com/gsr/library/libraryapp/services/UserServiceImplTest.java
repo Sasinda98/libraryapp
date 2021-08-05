@@ -3,6 +3,7 @@ package com.gsr.library.libraryapp.services;
 import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.repositories.UserRepository;
+import com.sun.org.apache.xpath.internal.Arg;
 import org.graalvm.compiler.lir.LIRInstruction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -87,5 +88,46 @@ class UserServiceImplTest {
                 .isExactlyInstanceOf(OperationStoppedException.class)
                 .hasMessage("User not found to update details.");
     }
+
+    @Test
+    void getBooksBorrowedByUserID(){
+        //given
+        Long userID = 1L;
+        User user = new User("Lewis", "Hamilton", "lewis@domain.com");
+        user.setUserID(userID);
+
+        //user exists
+        Optional<User> optionalUser = Optional.of(user);
+        given(testUserRepository.findById(userID)).willReturn(optionalUser);
+
+        //when
+        testUserService.getBooksBorrowedByUserID(userID);
+
+        //then
+        ArgumentCaptor<Long> userIDCaptor = ArgumentCaptor.forClass(Long.class);
+        verify(testUserRepository).getBooksBorrowedByUserID(userIDCaptor.capture());
+
+        Long capturedUserID = userIDCaptor.getValue();
+        assertThat(capturedUserID).isEqualTo(userID);
+    }
+
+    @Test
+    void getBooksBorrowedByUserIDThrowsOperationStoppedException(){
+        //given
+        Long userID = 1L;
+        User user = new User("Lewis", "Hamilton", "lewis@domain.com");
+        user.setUserID(userID);
+
+        //user doesn't exist
+        Optional<User> optionalUser = Optional.empty();
+        given(testUserRepository.findById(userID)).willReturn(optionalUser);
+
+        //when and then
+        assertThatThrownBy(() -> testUserService.getBooksBorrowedByUserID(userID))
+                .isExactlyInstanceOf(OperationStoppedException.class)
+                .hasMessage("No such user to present borrowed info.");
+
+    }
+
 
 }
