@@ -8,6 +8,7 @@ import com.gsr.library.libraryapp.micellaneous.Validator;
 import com.gsr.library.libraryapp.repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,30 +23,36 @@ public class BookServiceImpl implements BookService{
         this.userService = userService;
     }
 
+    @Transactional(readOnly = true)
     public List<Book> getAllBooks() {
         return (List<Book>) bookRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Book> bookExistsByID(Long bookID) {
         return bookRepository.findById(bookID);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Boolean isBookBorrowedByUser(Long userID, Long bookID) {
         return bookRepository.isBookBorrowedByUser(userID,bookID);
     }
 
+    @Transactional(readOnly = true)
     public List<Book> searchForBookByTitle(String title){
         return bookRepository.searchForBookByTitle(title);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> getBorrowersForABookByBookID(Long bookID) {
         return bookRepository.getBorrowersForABookByBookID(bookID);
     }
 
     @Override
+    @Transactional
     public void updateBook(Book book) throws ValidationException, OperationStoppedException {
         Optional<Book> bookOptional = bookRepository.findById(book.getBookID());
 
@@ -62,6 +69,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @Transactional
     public void deleteBook(Long bookID) throws OperationStoppedException {
         Optional<Book> bookOptional = bookRepository.findById(bookID);
 
@@ -73,6 +81,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @Transactional
     public void borrowBook(Long userID, Long bookID) throws OperationStoppedException {
         Optional<User> optionalUser = userService.getUserByID(userID);
         Optional<Book> optionalBook = bookRepository.findById(bookID);
@@ -100,6 +109,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @Transactional
     public void returnBook(Long userID, Long bookID) throws OperationStoppedException {
         Optional<User> optionalUser = userService.getUserByID(userID);
         Optional<Book> optionalBook = bookRepository.findById(bookID);
