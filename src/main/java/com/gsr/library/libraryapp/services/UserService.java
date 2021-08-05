@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface UserService {
     Optional<User> getUserByID(Long userID);
+    List<User> getUsers();
     void updateUser(User user) throws OperationStoppedException;
     List<Book> getBooksBorrowedByUserID(Long userID) throws OperationStoppedException;
 }

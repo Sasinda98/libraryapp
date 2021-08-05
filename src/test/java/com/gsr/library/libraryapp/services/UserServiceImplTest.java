@@ -129,5 +129,13 @@ class UserServiceImplTest {
 
     }
 
+    @Test
+    void getUsers() {
+        //given
+        //when
+        testUserService.getUsers();
 
+        //then
+        verify(testUserRepository).findAll();
+    }
 }
