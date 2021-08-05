@@ -35,13 +35,13 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title, String category, Integer quantity, Integer isbn, Date createdAt, Date modifiedAt) {
+    public Book(String title, String category, Integer quantity, Integer isbn) {
         this.title = title;
         this.category = category;
         this.quantity = quantity;
         this.isbn = isbn;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
+        this.createdAt = new Date();
+        this.modifiedAt = new Date();
     }
 
     public Long getBookID() {
@@ -94,10 +94,6 @@ public class Book {
 
     public Date getCreatedAt() {
         return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Date getModifiedAt() {

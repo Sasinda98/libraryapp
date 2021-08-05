@@ -21,8 +21,8 @@ public class BookUserTest {
     private final BookRepository testBookRepository;
     private final UserRepository testUserRepository;
 
-    private Book book1 = new Book("Spring Framework for Dummies", "Educational", 1, 1111, new Date(), new Date());
-    private Book book2 = new Book("JPA for Dummies", "Educational", 3, 2222, new Date(), new Date());
+    private Book book1 = new Book("Spring Framework for Dummies", "Educational", 1, 1111);
+    private Book book2 = new Book("JPA for Dummies", "Educational", 3, 2222);
     private User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
     private User user2 = new User("John", "Doe", "john.doe@domain.com");
 
