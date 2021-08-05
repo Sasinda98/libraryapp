@@ -106,6 +106,7 @@ class BookServiceImplTest {
     void updateBook(){
         //given
         Book validBook = new Book("Garry", "Fiction", 3, 1234);
+        Date oldModifiedDate = validBook.getModifiedAt();
         validBook.setBookID(1L);
 
         Optional<Book> bookOptional = Optional.of(validBook);
@@ -123,6 +124,7 @@ class BookServiceImplTest {
         Book capturedBook = bookArgumentCaptor.getValue();
 
         assertThat(capturedBook).isEqualTo(validBook);
+        assertThat(oldModifiedDate).isNotEqualTo(capturedBook.getModifiedAt());
     }
 
     @Test

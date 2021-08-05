@@ -9,6 +9,8 @@ import com.gsr.library.libraryapp.repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,7 +66,8 @@ public class BookServiceImpl implements BookService{
         if(!Validator.getInstance().isBookValid(book)){
             throw new ValidationException("Invalid book details.");
         }
-
+        //change modified date.
+        book.setModifiedAt(new Date());
         bookRepository.save(book);
     }
 
