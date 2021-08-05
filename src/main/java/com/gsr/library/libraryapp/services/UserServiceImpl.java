@@ -45,13 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Book> getBooksBorrowedByUserID(Long userID) throws OperationStoppedException {
-        //check for user.
-        Optional<User> optionalUser = userRepository.findById(userID);
-
-        if(!optionalUser.isPresent())
-            throw new OperationStoppedException("No such user to present borrowed info.");
-
+    public List<Book> getBooksBorrowedByUserID(Long userID) {
         return userRepository.getBooksBorrowedByUserID(userID);
     }
 }
