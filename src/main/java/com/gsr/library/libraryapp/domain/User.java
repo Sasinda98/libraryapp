@@ -3,6 +3,7 @@ package com.gsr.library.libraryapp.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -17,6 +18,11 @@ public class User {
 
     @Column(unique = true)
     private String email;
+
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date createdAt;
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date modifiedAt;
 
     @ManyToMany
     @JoinTable(name = "users_books", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
@@ -33,6 +39,8 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.createdAt = new Date();
+        this.modifiedAt = new Date();
     }
 
     public Long getUserID() {
@@ -69,6 +77,18 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public void setModifiedAt(Date modifiedAt) {
+        this.modifiedAt = modifiedAt;
     }
 
     @Override
