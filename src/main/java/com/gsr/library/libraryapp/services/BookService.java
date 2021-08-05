@@ -19,9 +19,9 @@ public interface BookService {
 
     List<User> getBorrowersForABookByBookID(Long bookID);
 
-    void updateBook(Book book) throws ValidationException, OperationStoppedException;
+    Book updateBook(Book book) throws ValidationException, OperationStoppedException;
 
-    void deleteBook(Long bookID) throws OperationStoppedException;
+    Book deleteBook(Long bookID) throws OperationStoppedException;
 
     void borrowBook(Long userID, Long bookID) throws OperationStoppedException;
 

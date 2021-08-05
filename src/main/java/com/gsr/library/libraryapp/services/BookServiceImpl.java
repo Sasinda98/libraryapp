@@ -55,7 +55,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     @Transactional
-    public void updateBook(Book book) throws ValidationException, OperationStoppedException {
+    public Book updateBook(Book book) throws ValidationException, OperationStoppedException {
         Optional<Book> bookOptional = bookRepository.findById(book.getBookID());
 
         if (!bookOptional.isPresent()){
@@ -69,11 +69,12 @@ public class BookServiceImpl implements BookService{
         //change modified date.
         book.setModifiedAt(new Date());
         bookRepository.save(book);
+        return book;
     }
 
     @Override
     @Transactional
-    public void deleteBook(Long bookID) throws OperationStoppedException {
+    public Book deleteBook(Long bookID) throws OperationStoppedException {
         Optional<Book> bookOptional = bookRepository.findById(bookID);
 
         if (!bookOptional.isPresent()){
@@ -81,6 +82,7 @@ public class BookServiceImpl implements BookService{
         }
 
         bookRepository.delete(bookOptional.get());
+        return bookOptional.get();
     }
 
     @Override

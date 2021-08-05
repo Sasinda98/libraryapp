@@ -115,7 +115,7 @@ class BookServiceImplTest {
                 .willReturn(bookOptional);
 
         //when
-        testBookServiceImpl.updateBook(validBook);
+        Book returnedBook = testBookServiceImpl.updateBook(validBook);
 
         //then
         ArgumentCaptor<Book> bookArgumentCaptor = ArgumentCaptor.forClass(Book.class);
@@ -125,6 +125,7 @@ class BookServiceImplTest {
 
         assertThat(capturedBook).isEqualTo(validBook);
         assertThat(oldModifiedDate).isNotEqualTo(capturedBook.getModifiedAt());
+        assertThat(returnedBook).isEqualTo(capturedBook);
     }
 
     @Test
@@ -177,13 +178,15 @@ class BookServiceImplTest {
                 .findById(validBook.getBookID()))
                 .willReturn(bookOptional);
         //when
-        testBookServiceImpl.deleteBook(bookID);
+        Book returnedBook = testBookServiceImpl.deleteBook(bookID);
 
         //then
         ArgumentCaptor<Book> bookCaptor = ArgumentCaptor.forClass(Book.class);
         verify(bookRepository).delete(bookCaptor.capture());
+        
         Book bookCaptured = bookCaptor.getValue();
         assertThat(bookCaptured).isEqualTo(validBook);
+        assertThat(returnedBook).isEqualTo(bookCaptured);
     }
 
     @Test
