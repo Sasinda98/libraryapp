@@ -23,7 +23,9 @@ public class Validator {
                 && !book.getTitle().isEmpty()
                 && (book.getIsbn() > 0)
                 && (book.getQuantity() >= 0)
-                && (book.getBookID() >= 0) ;
+                && (book.getBookID() >= 0)
+                && book.getCreatedAt() != null
+                && book.getModifiedAt() != null;
         return isPropertiesValid;
     }
 }

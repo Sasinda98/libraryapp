@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -23,8 +24,8 @@ class BookRepositoryTest {
     @Test
     void searchForBookByTitleExactMatch() {
         //given
-        Book book1 = new Book("Spring Framework for Dummies", "Educational", 1, 1111);
-        Book book2 = new Book("JPA for Dummies", "Educational", 3, 2222);
+        Book book1 = new Book("Spring Framework for Dummies", "Educational", 1, 1111, new Date(), new Date());
+        Book book2 = new Book("JPA for Dummies", "Educational", 3, 2222, new Date(), new Date());
         testBookRepository.saveAll(List.of(book1, book2));
 
         //when
@@ -40,8 +41,8 @@ class BookRepositoryTest {
     @Test
     void searchForBookByTitleApproxMatch() {
         //given
-        Book book1 = new Book("Spring Framework for Dummies", "Educational", 1, 1111);
-        Book book2 = new Book("JPA for Dummies", "Educational", 3, 2222);
+        Book book1 = new Book("Spring Framework for Dummies", "Educational", 1, 1111, new Date(), new Date());
+        Book book2 = new Book("JPA for Dummies", "Educational", 3, 2222, new Date(), new Date());
         testBookRepository.saveAll(List.of(book1, book2));
 
         //when

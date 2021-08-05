@@ -1,8 +1,10 @@
 package com.gsr.library.libraryapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -16,6 +18,11 @@ public class Book {
     private String category;
     private Integer quantity;
 
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date createdAt;
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date modifiedAt;
+
     @Column(unique = true)
     private Integer isbn;
 
@@ -28,11 +35,13 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title, String category, Integer quantity, Integer isbn) {
+    public Book(String title, String category, Integer quantity, Integer isbn, Date createdAt, Date modifiedAt) {
         this.title = title;
         this.category = category;
         this.quantity = quantity;
         this.isbn = isbn;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
     }
 
     public Long getBookID() {
@@ -81,6 +90,22 @@ public class Book {
 
     public void setIsbn(Integer isbn) {
         this.isbn = isbn;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public void setModifiedAt(Date modifiedAt) {
+        this.modifiedAt = modifiedAt;
     }
 
     @Override

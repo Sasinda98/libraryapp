@@ -11,6 +11,8 @@ import com.gsr.library.libraryapp.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 
@@ -28,12 +30,12 @@ public class CMDRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Book b1 = new Book("Garry", "Fiction", 3, 1234);
-        Book b2 = new Book("Bravo Two Zero", "Non Fiction", 3, 2345);
-        Book b3 = new Book("Ghost Patrol", "Non Fiction", 2, 3456);
-        Book b4 = new Book("Frankenstein", "Fiction", 1, 4567);
-        Book b5 = new Book("Glass Hotel", "Science Fiction", 5, 5678);
-        Book b6 = new Book("Sherlock Holmes", "Mystery", 8, 6789);
+        Book b1 = new Book("Garry", "Fiction", 3, 1234, new Date(), new Date());
+        Book b2 = new Book("Bravo Two Zero", "Non Fiction", 3, 2345, new Date(), new Date());
+        Book b3 = new Book("Ghost Patrol", "Non Fiction", 2, 3456, new Date(), new Date());
+        Book b4 = new Book("Frankenstein", "Fiction", 1, 4567, new Date(), new Date());
+        Book b5 = new Book("Glass Hotel", "Science Fiction", 5, 5678, new Date(), new Date());
+        Book b6 = new Book("Sherlock Holmes", "Mystery", 8, 6789, new Date(), new Date());
 
 
         User u1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");

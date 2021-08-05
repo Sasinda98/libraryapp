@@ -12,6 +12,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Date;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -104,7 +105,7 @@ class BookServiceImplTest {
     @Test
     void updateBook(){
         //given
-        Book validBook = new Book("Garry", "Fiction", 3, 1234);
+        Book validBook = new Book("Garry", "Fiction", 3, 1234, new Date(), new Date());
         validBook.setBookID(1L);
 
         Optional<Book> bookOptional = Optional.of(validBook);
@@ -127,7 +128,7 @@ class BookServiceImplTest {
     @Test
     void updateBookThrowsOperationStoppedException(){
         //given
-        Book validBook = new Book("Garry", "Fiction", 3, 1234);
+        Book validBook = new Book("Garry", "Fiction", 3, 1234, new Date(), new Date());
         validBook.setBookID(1L);
 
         /***
@@ -147,7 +148,7 @@ class BookServiceImplTest {
     @Test
     void updateBookThrowsValidationException(){
         //given
-        Book invalidBook = new Book("", "", -999, -59);
+        Book invalidBook = new Book("", "", -999, -59, new Date(), new Date());
         invalidBook.setBookID(1L);
 
         Optional<Book> bookOptional = Optional.of(invalidBook);
@@ -165,7 +166,7 @@ class BookServiceImplTest {
     @Test
     void deleteBook(){
         //given
-        Book validBook = new Book("Garry", "Fiction", 3, 1234);
+        Book validBook = new Book("Garry", "Fiction", 3, 1234, new Date(), new Date());
         Long bookID = 1L;
         validBook.setBookID(bookID);
 
@@ -186,7 +187,7 @@ class BookServiceImplTest {
     @Test
     void deleteBookThrowsOperationStoppedException(){
         //given
-        Book validBook = new Book("Garry", "Fiction", 3, 1234);
+        Book validBook = new Book("Garry", "Fiction", 3, 1234, new Date(), new Date());
         Long bookID = 1L;
         validBook.setBookID(bookID);
 
@@ -230,7 +231,7 @@ class BookServiceImplTest {
     void borrowBook(){
         //given
         Integer originalBookQty = 3;
-        Book book1 = new Book("Garry", "Fiction", originalBookQty, 1234);
+        Book book1 = new Book("Garry", "Fiction", originalBookQty, 1234, new Date(), new Date());
         User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
         user1.setUserID(1L);
         book1.setBookID(1L);
@@ -264,7 +265,7 @@ class BookServiceImplTest {
     @Test
     void borrowBookThrowsOperationStoppedException1(){
         //given
-        Book book1 = new Book("Garry", "Fiction", 3, 1234);
+        Book book1 = new Book("Garry", "Fiction", 3, 1234, new Date(), new Date());
         User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
         user1.setUserID(1L);
         book1.setBookID(1L);
@@ -287,7 +288,7 @@ class BookServiceImplTest {
     @Test
     void borrowBookThrowsOperationStoppedException2(){
         //given
-        Book book1 = new Book("Garry", "Fiction", 3, 1234);
+        Book book1 = new Book("Garry", "Fiction", 3, 1234, new Date(), new Date());
         User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
         user1.setUserID(1L);
         book1.setBookID(1L);
@@ -311,7 +312,7 @@ class BookServiceImplTest {
     void borrowBookThrowsOperationStoppedException3(){
         //given
         //NOTE: BOOK QUANTITY IS ZERO HERE
-        Book book1 = new Book("Garry", "Fiction", 0, 1234);
+        Book book1 = new Book("Garry", "Fiction", 0, 1234, new Date(), new Date());
         User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
         user1.setUserID(1L);
         book1.setBookID(1L);
@@ -335,7 +336,7 @@ class BookServiceImplTest {
     void returnBook(){
         //given
         Integer originalBookQty = 3;
-        Book book1 = new Book("Garry", "Fiction", originalBookQty, 1234);
+        Book book1 = new Book("Garry", "Fiction", originalBookQty, 1234, new Date(), new Date());
         User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
         user1.setUserID(1L);
         book1.setBookID(1L);
@@ -370,7 +371,7 @@ class BookServiceImplTest {
     @Test
     void returnBookThrowsOperationStoppedException1(){
         //given
-        Book book1 = new Book("Garry", "Fiction", 3, 1234);
+        Book book1 = new Book("Garry", "Fiction", 3, 1234, new Date(), new Date());
         User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
         user1.setUserID(1L);
         book1.setBookID(1L);
@@ -393,7 +394,7 @@ class BookServiceImplTest {
     @Test
     void returnBookThrowsOperationStoppedException2(){
         //given
-        Book book1 = new Book("Garry", "Fiction", 3, 1234);
+        Book book1 = new Book("Garry", "Fiction", 3, 1234, new Date(), new Date());
         User user1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
         user1.setUserID(1L);
         book1.setBookID(1L);
