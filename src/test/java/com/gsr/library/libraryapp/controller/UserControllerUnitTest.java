@@ -1,10 +1,8 @@
 package com.gsr.library.libraryapp.controller;
 
 import com.gsr.library.libraryapp.domain.Book;
-import com.gsr.library.libraryapp.domain.dto.BookDto;
 import com.gsr.library.libraryapp.domain.dto.ListBookDto;
 import com.gsr.library.libraryapp.services.UserService;
-import org.aspectj.weaver.patterns.IVerificationRequired;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,11 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -55,7 +50,7 @@ class UserControllerUnitTest {
         given(testUserService.getBooksBorrowedByUserID(userID))
                 .willReturn(bookArrayList);
         //when
-        ListBookDto actualReturn = testUserController.getBorrowersForABook(userID);
+        ListBookDto actualReturn = testUserController.getBooksBorrowedByAUser(userID);
         //then
         ArgumentCaptor<Long> userIDCaptor = ArgumentCaptor.forClass(Long.class);
         verify(testUserService).getBooksBorrowedByUserID(userIDCaptor.capture());
