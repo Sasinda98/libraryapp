@@ -61,4 +61,21 @@ public class BookController {
         return success;
     }
 
+    @PostMapping(value = "/return-info")
+    public Map<String, Object> returnBook (@RequestBody Map<String, Object> payload){
+        try {
+            Long userID = ((Number) payload.get("user_id")).longValue();
+            Long bookID = ((Number) payload.get("book_id")).longValue();
+            bookServiceImpl.returnBook(userID, bookID);
+        }
+        catch (ClassCastException | NullPointerException ex){
+            //When user_id book_id in req body is not in type we expect.
+            //Or the keys don't exist at all.
+            throw new ValidationException("Bad request received.");
+        }
+        HashMap<String, Object> success = new HashMap<>();
+        success.put("message", "Book successfully returned.");
+        return success;
+    }
+
 }
