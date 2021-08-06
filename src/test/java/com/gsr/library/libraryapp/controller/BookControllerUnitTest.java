@@ -3,8 +3,10 @@ package com.gsr.library.libraryapp.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gsr.library.libraryapp.domain.Book;
+import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.domain.dto.APISuccessResponseDto;
 import com.gsr.library.libraryapp.domain.dto.BookDto;
+import com.gsr.library.libraryapp.domain.dto.ListUserDto;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 import com.gsr.library.libraryapp.services.BookService;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,13 +48,32 @@ class BookControllerUnitTest {
     void getBorrowersForABook() {
         //given
         Long bookID = 1L;
+        Long userID = 2L;
+        User user = new User("Gayal", "Rupasinghe", "gayal@domain.com");
+        user.setUserID(userID);
+
+        ArrayList<User> userArrayList = new ArrayList<>();
+        userArrayList.add(user);
+
+        given(testBookService.getBorrowersForABookByBookID(bookID))
+                .willReturn(userArrayList);
+
         //when
-        testBookController.getBorrowersForABook(bookID);
+        ListUserDto actualReturn = testBookController.getBorrowersForABook(bookID);
+
         //then
         ArgumentCaptor<Long> bookIDCaptor = ArgumentCaptor.forClass(Long.class);
         verify(testBookService).getBorrowersForABookByBookID(bookIDCaptor.capture());
+
         Long bookIDCaptured = bookIDCaptor.getValue();
+
         assertThat(bookIDCaptured).isEqualTo(bookID);
+        assertThat(actualReturn.getNumberOfUsers()).isEqualTo(userArrayList.size());
+        assertThat(actualReturn
+                .getUsers()
+                .get(0)
+                .getUserID()
+        ).isEqualTo(userID);
     }
 
     @Test
