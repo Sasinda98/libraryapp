@@ -1,5 +1,8 @@
 package com.gsr.library.libraryapp.controller;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.gsr.library.libraryapp.domain.Book;
 import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.domain.dto.BookDto;
@@ -7,6 +10,7 @@ import com.gsr.library.libraryapp.domain.dto.ListUserDto;
 import com.gsr.library.libraryapp.domain.dto.UserDto;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 import com.gsr.library.libraryapp.services.BookServiceImpl;
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,4 +82,35 @@ public class BookController {
         return success;
     }
 
+    @PutMapping
+    public Map<String, Object> updateBook (@RequestBody Map<String, Object> payload){
+        try {
+            modelMapper.map(Map.class, BookDto.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+//            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+
+            BookDto bookDto = objectMapper.convertValue(payload, BookDto.class);
+
+            //ToDo: Check why these two disagree.
+            System.out.println("DTO from ObjectMapper == " + bookDto);
+            System.out.println("DTO from modelMapper == " + modelMapper.map(Map.class, BookDto.class));
+
+            Book book = modelMapper.map(bookDto, Book.class);
+
+            System.out.println("Actual Book = " + book);
+
+            if(book.getBookID() == null){
+                throw new ValidationException("Specify book by its id.");
+            }
+            bookServiceImpl.updateBook(book);
+
+        }
+        catch (IllegalArgumentException ex){
+            //Arguments specified is outside API spec.
+            throw new ValidationException("Bad request received.");
+        }
+        HashMap<String, Object> success = new HashMap<>();
+        success.put("message", "UPDATE NOT IMPLEMENTED");
+        return success;
+    }
 }

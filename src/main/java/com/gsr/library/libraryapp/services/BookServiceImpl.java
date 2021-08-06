@@ -2,10 +2,14 @@ package com.gsr.library.libraryapp.services;
 
 import com.gsr.library.libraryapp.domain.Book;
 import com.gsr.library.libraryapp.domain.User;
+import com.gsr.library.libraryapp.domain.dto.BookDto;
 import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 import com.gsr.library.libraryapp.micellaneous.Validator;
 import com.gsr.library.libraryapp.repositories.BookRepository;
+import jdk.internal.module.IllegalAccessLogger;
+import org.modelmapper.Conditions;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +24,12 @@ public class BookServiceImpl implements BookService{
     private final BookRepository bookRepository;
     private final UserService userService;
 
-    public BookServiceImpl(BookRepository bookRepository, UserService userService) {
+    private final ModelMapper modelMapper;
+
+    public BookServiceImpl(BookRepository bookRepository, UserService userService, ModelMapper modelMapper) {
         this.bookRepository = bookRepository;
         this.userService = userService;
+        this.modelMapper = modelMapper;
     }
 
     @Transactional(readOnly = true)
@@ -62,14 +69,18 @@ public class BookServiceImpl implements BookService{
             throw new OperationStoppedException("No such book found to update.");
         }
 
+        Book bookRecord = bookOptional.get();
+        //Apply the not null fields of book to bookRecord, thus bringing the record up to date.
+        modelMapper.typeMap(Book.class, Book.class).setPropertyCondition(Conditions.isNotNull()).map(book, bookRecord);
         //Implement validation here.
-        if(!Validator.getInstance().isBookValid(book)){
+        if(!Validator.getInstance().isBookValid(bookRecord)){
             throw new ValidationException("Invalid book details.");
         }
+
         //change modified date.
-        book.setModifiedAt(new Date());
-        bookRepository.save(book);
-        return book;
+        bookRecord.setModifiedAt(new Date());
+        bookRepository.save(bookRecord);
+        return bookRecord;
     }
 
     @Override
