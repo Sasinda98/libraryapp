@@ -2,14 +2,13 @@ package com.gsr.library.libraryapp.controller;
 
 import com.gsr.library.libraryapp.domain.Book;
 import com.gsr.library.libraryapp.domain.User;
+import com.gsr.library.libraryapp.domain.dto.BookDto;
 import com.gsr.library.libraryapp.domain.dto.ListUserDto;
 import com.gsr.library.libraryapp.domain.dto.UserDto;
 import com.gsr.library.libraryapp.services.BookServiceImpl;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,4 +34,11 @@ public class BookController {
         List<UserDto> userDtos = users.stream().map(user1 -> modelMapper.map(user1, UserDto.class)).collect(Collectors.toList());
         return new ListUserDto(userDtos.size(), userDtos);
     }
+
+    @DeleteMapping(value = "/{book_id}")
+    public BookDto deleteABook(@PathVariable("book_id") Long bookID){
+        Book deletedBook = bookServiceImpl.deleteBook(bookID);
+        return modelMapper.map(deletedBook, BookDto.class);
+    }
+
 }
