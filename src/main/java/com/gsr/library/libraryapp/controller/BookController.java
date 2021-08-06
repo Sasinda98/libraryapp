@@ -109,7 +109,7 @@ public class BookController {
             throw new ValidationException("Bad request received.");
         }
         HashMap<String, Object> success = new HashMap<>();
-        success.put("message", "UPDATE NOT IMPLEMENTED");
+        success.put("message", "Book updated successfully");
         return success;
     }
 }
