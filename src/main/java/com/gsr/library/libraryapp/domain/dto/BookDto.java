@@ -89,4 +89,17 @@ public class BookDto {
     public void setIsbn(Integer isbn) {
         this.isbn = isbn;
     }
+
+    @Override
+    public String toString() {
+        return "BookDto{" +
+                "bookID=" + bookID +
+                ", title='" + title + '\'' +
+                ", category='" + category + '\'' +
+                ", quantity=" + quantity +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                ", isbn=" + isbn +
+                '}';
+    }
 }
