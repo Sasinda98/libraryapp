@@ -9,6 +9,7 @@ import com.gsr.library.libraryapp.domain.dto.BookDto;
 import com.gsr.library.libraryapp.domain.dto.ListUserDto;
 import com.gsr.library.libraryapp.domain.dto.UserDto;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
+import com.gsr.library.libraryapp.services.BookService;
 import com.gsr.library.libraryapp.services.BookServiceImpl;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
@@ -22,10 +23,10 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(path = "/books")
 public class BookController {
-    private final BookServiceImpl bookServiceImpl;
+    private final BookService bookServiceImpl;
     private final ModelMapper modelMapper;
 
-    public BookController(BookServiceImpl bookServiceImpl, ModelMapper modelMapper) {
+    public BookController(BookService bookServiceImpl, ModelMapper modelMapper) {
         this.bookServiceImpl = bookServiceImpl;
         this.modelMapper = modelMapper;
     }
