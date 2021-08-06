@@ -85,9 +85,8 @@ public class BookController {
     @PutMapping
     public Map<String, Object> updateBook (@RequestBody Map<String, Object> payload){
         try {
-            modelMapper.map(Map.class, BookDto.class);
             ObjectMapper objectMapper = new ObjectMapper();
-//            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
 
             BookDto bookDto = objectMapper.convertValue(payload, BookDto.class);
 
