@@ -5,6 +5,7 @@ import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.domain.dto.BookDto;
 import com.gsr.library.libraryapp.domain.dto.ListBookDto;
 import com.gsr.library.libraryapp.domain.dto.ListUserDto;
+import com.gsr.library.libraryapp.services.UserService;
 import com.gsr.library.libraryapp.services.UserServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +20,11 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "/users")
 public class UserController {
 
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userServiceImpl;
 
     private final ModelMapper modelMapper;
 
-    public UserController(UserServiceImpl userServiceImpl, ModelMapper modelMapper) {
+    public UserController(UserService userServiceImpl, ModelMapper modelMapper) {
         this.userServiceImpl = userServiceImpl;
         this.modelMapper = modelMapper;
     }
