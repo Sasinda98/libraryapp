@@ -2,16 +2,14 @@ package com.gsr.library.libraryapp.controller;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.gsr.library.libraryapp.domain.Book;
 import com.gsr.library.libraryapp.domain.User;
+import com.gsr.library.libraryapp.domain.dto.APISuccessResponseDto;
 import com.gsr.library.libraryapp.domain.dto.BookDto;
 import com.gsr.library.libraryapp.domain.dto.ListUserDto;
 import com.gsr.library.libraryapp.domain.dto.UserDto;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 import com.gsr.library.libraryapp.services.BookService;
-import com.gsr.library.libraryapp.services.BookServiceImpl;
-import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +48,7 @@ public class BookController {
     }
 
     @PostMapping(value = "/borrow-info")
-    public Map<String, Object> borrowBook(@RequestBody Map<String, Object> payload){
+    public APISuccessResponseDto borrowBook(@RequestBody Map<String, Object> payload){
         try {
             Long userID = ((Number) payload.get("user_id")).longValue();
             Long bookID = ((Number) payload.get("book_id")).longValue();
@@ -61,13 +59,12 @@ public class BookController {
             //Or the keys don't exist at all.
             throw new ValidationException("Bad request received.");
         }
-        HashMap<String, Object> success = new HashMap<>();
-        success.put("message", "Book successfully borrowed.");
-        return success;
+
+        return new APISuccessResponseDto("Book successfully borrowed.");
     }
 
     @PostMapping(value = "/return-info")
-    public Map<String, Object> returnBook (@RequestBody Map<String, Object> payload){
+    public APISuccessResponseDto returnBook (@RequestBody Map<String, Object> payload){
         try {
             Long userID = ((Number) payload.get("user_id")).longValue();
             Long bookID = ((Number) payload.get("book_id")).longValue();
@@ -78,13 +75,11 @@ public class BookController {
             //Or the keys don't exist at all.
             throw new ValidationException("Bad request received.");
         }
-        HashMap<String, Object> success = new HashMap<>();
-        success.put("message", "Book successfully returned.");
-        return success;
+        return new APISuccessResponseDto("Book successfully returned.");
     }
 
     @PutMapping
-    public Map<String, Object> updateBook (@RequestBody Map<String, Object> payload){
+    public APISuccessResponseDto updateBook (@RequestBody Map<String, Object> payload){
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
@@ -109,8 +104,6 @@ public class BookController {
             //Arguments specified is outside API spec.
             throw new ValidationException("Bad request received.");
         }
-        HashMap<String, Object> success = new HashMap<>();
-        success.put("message", "Book updated successfully");
-        return success;
+        return new APISuccessResponseDto("Book updated successfully");
     }
 }
