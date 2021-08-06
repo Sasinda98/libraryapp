@@ -81,6 +81,11 @@ public class BookServiceImpl implements BookService{
             throw new OperationStoppedException("No such book found to delete.");
         }
 
+        Boolean isAlreadyBorrowed = !bookOptional.get().getBorrowers().isEmpty();
+        if(isAlreadyBorrowed){
+            throw new OperationStoppedException("Book already borrowed, book can be deleted when all books are returned.");
+        }
+
         bookRepository.delete(bookOptional.get());
         return bookOptional.get();
     }

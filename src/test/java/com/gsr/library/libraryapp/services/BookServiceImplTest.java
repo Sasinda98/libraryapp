@@ -190,7 +190,7 @@ class BookServiceImplTest {
     }
 
     @Test
-    void deleteBookThrowsOperationStoppedException(){
+    void deleteBookThrowsOperationStoppedException1(){
         //given
         Book validBook = new Book("Garry", "Fiction", 3, 1234);
         Long bookID = 1L;
@@ -207,6 +207,29 @@ class BookServiceImplTest {
         assertThatThrownBy(() -> testBookServiceImpl.deleteBook(bookID))
                 .isExactlyInstanceOf(OperationStoppedException.class)
                 .hasMessage("No such book found to delete.");
+
+    }
+
+    @Test
+    void deleteBookThrowsOperationStoppedException2(){
+        //given
+        Long bookID = 1L;
+        Book validBook = new Book("Garry", "Fiction", 3, 1234);
+        User user = new User("Lewis", "Hamilton", "lewis@domain.com");
+
+        validBook.setBookID(bookID);
+        validBook.getBorrowers().add(user);
+        user.getBorrowedBooks().add(validBook);
+
+        Optional<Book> bookOptional = Optional.of(validBook);
+        given(bookRepository
+                .findById(validBook.getBookID()))
+                .willReturn(bookOptional);
+
+        //when and then
+        assertThatThrownBy(() -> testBookServiceImpl.deleteBook(bookID))
+                .isExactlyInstanceOf(OperationStoppedException.class)
+                .hasMessage("Book already borrowed, book can be deleted when all books are returned.");
 
     }
 
