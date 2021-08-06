@@ -11,6 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.Optional;
@@ -30,12 +32,13 @@ class BookServiceImplTest {
     private BookServiceImpl testBookServiceImpl;
     @Mock
     private UserService userService;
+    private ModelMapper modelMapper = new ModelMapper();
 
 
     @BeforeEach
     void setUp() {
         //Provide the mocked version of book repository to the service.
-        testBookServiceImpl = new BookServiceImpl(bookRepository, userService);
+        testBookServiceImpl = new BookServiceImpl(bookRepository, userService, modelMapper);
     }
 
     /**
