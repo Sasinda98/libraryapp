@@ -3,6 +3,7 @@ package com.gsr.library.libraryapp.exceptions.exceptiontemplates;
 import org.springframework.http.HttpStatus;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class APIExceptionTemplate {
     private String message;
@@ -50,5 +51,28 @@ public class APIExceptionTemplate {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        APIExceptionTemplate that = (APIExceptionTemplate) o;
+        return Objects.equals(message, that.message) && Objects.equals(error, that.error) && Objects.equals(status, that.status) && Objects.equals(timestamp, that.timestamp);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(message, error, status, timestamp);
+    }
+
+    @Override
+    public String toString() {
+        return "APIExceptionTemplate{" +
+                "message='" + message + '\'' +
+                ", error='" + error + '\'' +
+                ", status=" + status +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }
