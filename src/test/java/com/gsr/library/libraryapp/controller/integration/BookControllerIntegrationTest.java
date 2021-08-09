@@ -1,8 +1,9 @@
-package com.gsr.library.libraryapp.controller;
+package com.gsr.library.libraryapp.controller.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gsr.library.libraryapp.controller.BookController;
 import com.gsr.library.libraryapp.domain.Book;
 import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.domain.dto.APISuccessResponseDto;
