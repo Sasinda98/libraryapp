@@ -3,6 +3,7 @@ package com.gsr.library.libraryapp.services;
 import com.gsr.library.libraryapp.domain.Book;
 import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.domain.dto.BookDto;
+import com.gsr.library.libraryapp.exceptions.NoResourceFoundException;
 import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 import com.gsr.library.libraryapp.micellaneous.Validator;
@@ -66,7 +67,7 @@ public class BookServiceImpl implements BookService{
         Optional<Book> bookOptional = bookRepository.findById(book.getBookID());
 
         if (!bookOptional.isPresent()){
-            throw new OperationStoppedException("No such book found to update.");
+            throw new NoResourceFoundException("No such book found to update.");
         }
 
         Book bookRecord = bookOptional.get();
@@ -89,7 +90,7 @@ public class BookServiceImpl implements BookService{
         Optional<Book> bookOptional = bookRepository.findById(bookID);
 
         if (!bookOptional.isPresent()){
-            throw new OperationStoppedException("No such book found to delete.");
+            throw new NoResourceFoundException("No such book found to delete.");
         }
 
         Boolean isAlreadyBorrowed = !bookOptional.get().getBorrowers().isEmpty();
@@ -109,7 +110,7 @@ public class BookServiceImpl implements BookService{
         Boolean isBorrowed = bookRepository.isBookBorrowedByUser(userID, bookID);
 
         if(!optionalUser.isPresent() || !optionalBook.isPresent())
-            throw new OperationStoppedException("User or book specified does not exist.");
+            throw new NoResourceFoundException("User or book specified does not exist.");
         if(isBorrowed)
             throw new OperationStoppedException("Book already borrowed.");
 
@@ -139,7 +140,7 @@ public class BookServiceImpl implements BookService{
         if(!isBorrowed)
             throw new OperationStoppedException("You can only return borrowed books.");
         if(!optionalUser.isPresent() || !optionalBook.isPresent())
-            throw new OperationStoppedException("User or book being returned does not exist.");
+            throw new NoResourceFoundException("User or book being returned does not exist.");
 
         //Green light to return.
         User user = optionalUser.get();

@@ -2,6 +2,7 @@ package com.gsr.library.libraryapp.services;
 
 import com.gsr.library.libraryapp.domain.Book;
 import com.gsr.library.libraryapp.domain.User;
+import com.gsr.library.libraryapp.exceptions.NoResourceFoundException;
 import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 import com.gsr.library.libraryapp.repositories.BookRepository;
@@ -29,7 +30,7 @@ class BookServiceImplTest {
     //Get mocked version of book repository.
     @Mock
     private BookRepository bookRepository;
-    private BookServiceImpl testBookServiceImpl;
+    private BookService testBookServiceImpl;
     @Mock
     private UserService userService;
     private ModelMapper modelMapper = new ModelMapper();
@@ -146,7 +147,7 @@ class BookServiceImplTest {
 
         //when and then
         assertThatThrownBy(() -> testBookServiceImpl.updateBook(validBook))
-                .isExactlyInstanceOf(OperationStoppedException.class)
+                .isExactlyInstanceOf(NoResourceFoundException.class)
                 .hasMessage("No such book found to update.");
 
     }
@@ -208,7 +209,7 @@ class BookServiceImplTest {
 
         //when and then
         assertThatThrownBy(() -> testBookServiceImpl.deleteBook(bookID))
-                .isExactlyInstanceOf(OperationStoppedException.class)
+                .isExactlyInstanceOf(NoResourceFoundException.class)
                 .hasMessage("No such book found to delete.");
 
     }
@@ -312,7 +313,7 @@ class BookServiceImplTest {
 
         //when and then
         assertThatThrownBy(() -> testBookServiceImpl.borrowBook(user1.getUserID(), book1.getBookID()) )
-                .isExactlyInstanceOf(OperationStoppedException.class)
+                .isExactlyInstanceOf(NoResourceFoundException.class)
                 .hasMessage("User or book specified does not exist.");
     }
 
@@ -418,7 +419,7 @@ class BookServiceImplTest {
 
         //when and then
         assertThatThrownBy(() -> testBookServiceImpl.returnBook(user1.getUserID(), book1.getBookID()))
-                .isExactlyInstanceOf(OperationStoppedException.class)
+                .isExactlyInstanceOf(NoResourceFoundException.class)
                 .hasMessage("User or book being returned does not exist.");
     }
 

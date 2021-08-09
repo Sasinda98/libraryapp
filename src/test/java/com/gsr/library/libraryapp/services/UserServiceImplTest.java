@@ -1,6 +1,7 @@
 package com.gsr.library.libraryapp.services;
 
 import com.gsr.library.libraryapp.domain.User;
+import com.gsr.library.libraryapp.exceptions.NoResourceFoundException;
 import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.repositories.UserRepository;
 import com.sun.org.apache.xpath.internal.Arg;
@@ -85,7 +86,7 @@ class UserServiceImplTest {
 
         //when and then
         assertThatThrownBy(() -> testUserService.updateUser(user))
-                .isExactlyInstanceOf(OperationStoppedException.class)
+                .isExactlyInstanceOf(NoResourceFoundException.class)
                 .hasMessage("User not found to update details.");
     }
 
