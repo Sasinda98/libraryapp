@@ -18,6 +18,7 @@ import com.gsr.library.libraryapp.services.BookService;
 import com.gsr.library.libraryapp.services.BookServiceImpl;
 import com.gsr.library.libraryapp.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
@@ -211,56 +212,6 @@ class BookControllerIntegrationTest {
     }
 
     @Test
-    void borrowBookThrowsNoResourceFoundException() throws Exception {
-        //given
-        HashMap<String, Object> requestContent = new HashMap<>();
-        requestContent.put("book_id", 1L);
-        requestContent.put("user_id", 2L);
-
-        when(bookService.borrowBook(2L, 1L)).thenThrow(new NoResourceFoundException("Throw NoResourceFoundException and check response."));
-
-        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
-        APIExceptionTemplate responseExpected = new APIExceptionTemplate( "Throw NoResourceFoundException and check response.", httpStatus.getReasonPhrase(), httpStatus.value(), new Date());
-
-        //when and then
-        MvcResult result = mockMvc.perform(post("/books/borrow-info")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(getJsonString(requestContent))
-        )
-        .andDo(print())
-        .andExpect(status().isNotFound())
-        .andReturn();
-
-        APIExceptionTemplate response = objectMapper.readValue(result.getResponse().getContentAsString(), APIExceptionTemplate.class);
-        assertThat(response).isEqualTo(responseExpected);
-    }
-
-    @Test
-    void borrowBookThrowsOperationStoppedException() throws Exception {
-        //given
-        HashMap<String, Object> requestContent = new HashMap<>();
-        requestContent.put("book_id", 1L);
-        requestContent.put("user_id", 2L);
-
-        when(bookService.borrowBook(2L, 1L)).thenThrow(new OperationStoppedException("Throw OperationStoppedException and check response."));
-
-        HttpStatus httpStatus = HttpStatus.CONFLICT;
-        APIExceptionTemplate responseExpected = new APIExceptionTemplate( "Throw OperationStoppedException and check response.", httpStatus.getReasonPhrase(), httpStatus.value(), new Date());
-
-        //when and then
-        MvcResult result = mockMvc.perform(post("/books/borrow-info")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(getJsonString(requestContent))
-        )
-                .andDo(print())
-                .andExpect(status().isConflict())
-                .andReturn();
-
-        APIExceptionTemplate response = objectMapper.readValue(result.getResponse().getContentAsString(), APIExceptionTemplate.class);
-        assertThat(response).isEqualTo(responseExpected);
-    }
-
-    @Test
     void returnBook() throws Exception {
         //given
         HashMap<String, Object> requestContent = new HashMap<>();
@@ -282,56 +233,6 @@ class BookControllerIntegrationTest {
 
         APISuccessResponseDto responseDto = objectMapper.readValue(result.getResponse().getContentAsString(), APISuccessResponseDto.class);
         assertThat(responseDto).isEqualTo(expectedResponse);
-    }
-
-    @Test
-    void returnBookThrowsNoResourceFoundException() throws Exception {
-        //given
-        HashMap<String, Object> requestContent = new HashMap<>();
-        requestContent.put("book_id", 1L);
-        requestContent.put("user_id", 2L);
-
-        when(bookService.returnBook(2L, 1L)).thenThrow(new NoResourceFoundException("Throw NoResourceFoundException and check response."));
-
-        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
-        APIExceptionTemplate responseExpected = new APIExceptionTemplate( "Throw NoResourceFoundException and check response.", httpStatus.getReasonPhrase(), httpStatus.value(), new Date());
-
-        //when and then
-        MvcResult result = mockMvc.perform(post("/books/return-info")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(getJsonString(requestContent))
-        )
-                .andDo(print())
-                .andExpect(status().isNotFound())
-                .andReturn();
-
-        APIExceptionTemplate response = objectMapper.readValue(result.getResponse().getContentAsString(), APIExceptionTemplate.class);
-        assertThat(response).isEqualTo(responseExpected);
-    }
-
-    @Test
-    void returnBookThrowsOperationStoppedException() throws Exception {
-        //given
-        HashMap<String, Object> requestContent = new HashMap<>();
-        requestContent.put("book_id", 1L);
-        requestContent.put("user_id", 2L);
-
-        when(bookService.returnBook(2L, 1L)).thenThrow(new OperationStoppedException("Throw OperationStoppedException and check response."));
-
-        HttpStatus httpStatus = HttpStatus.CONFLICT;
-        APIExceptionTemplate responseExpected = new APIExceptionTemplate( "Throw OperationStoppedException and check response.", httpStatus.getReasonPhrase(), httpStatus.value(), new Date());
-
-        //when and then
-        MvcResult result = mockMvc.perform(post("/books/return-info")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(getJsonString(requestContent))
-        )
-                .andDo(print())
-                .andExpect(status().isConflict())
-                .andReturn();
-
-        APIExceptionTemplate response = objectMapper.readValue(result.getResponse().getContentAsString(), APIExceptionTemplate.class);
-        assertThat(response).isEqualTo(responseExpected);
     }
 
     @Test
@@ -358,7 +259,7 @@ class BookControllerIntegrationTest {
     }
 
     @Test
-    void updateBookThrowsNoResourceFoundException() throws Exception {
+    void checkAPIResponseOnNoResourceFoundException() throws Exception {
         //given
         HashMap<String, Object> requestContent = new HashMap<>();
         requestContent.put("book_id", 1L);
@@ -368,12 +269,14 @@ class BookControllerIntegrationTest {
         b1.setBookID(1L);
         b1.setTitle("Sample title.");
 
+        //FORCE throw NoResourceFoundException.
         when(bookService.updateBook(b1)).thenThrow(new NoResourceFoundException("Throw NoResourceFoundException and check response."));
 
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
         APIExceptionTemplate responseExpected = new APIExceptionTemplate( "Throw NoResourceFoundException and check response.", httpStatus.getReasonPhrase(), httpStatus.value(), new Date());
 
         //when and then
+        //hit the endpoint where this is thrown and get response.
         MvcResult result = mockMvc.perform(put("/books")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(getJsonString(requestContent))
@@ -387,7 +290,7 @@ class BookControllerIntegrationTest {
     }
 
     @Test
-    void updateBookThrowsValidationException() throws Exception {
+    void checkAPIResponseOnValidationException() throws Exception {
         //given
         HashMap<String, Object> requestContent = new HashMap<>();
         requestContent.put("book_id", 1L);
@@ -397,18 +300,47 @@ class BookControllerIntegrationTest {
         b1.setBookID(1L);
         b1.setTitle("Sample title.");
 
+        //FORCE throw ValidationException
         when(bookService.updateBook(b1)).thenThrow(new ValidationException("Throw ValidationException and check response."));
 
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         APIExceptionTemplate responseExpected = new APIExceptionTemplate( "Throw ValidationException and check response.", httpStatus.getReasonPhrase(), httpStatus.value(), new Date());
 
         //when and then
+        //hit the endpoint where this is thrown and get response.
         MvcResult result = mockMvc.perform(put("/books")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(getJsonString(requestContent))
         )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
+                .andReturn();
+
+        APIExceptionTemplate response = objectMapper.readValue(result.getResponse().getContentAsString(), APIExceptionTemplate.class);
+        assertThat(response).isEqualTo(responseExpected);
+    }
+
+    @Test
+    void checkAPIResponseOnOperationStoppedException() throws Exception {
+        //given
+        HashMap<String, Object> requestContent = new HashMap<>();
+        requestContent.put("book_id", 1L);
+        requestContent.put("user_id", 2L);
+
+        //FORCE throw OperationStoppedException
+        when(bookService.borrowBook(2L, 1L)).thenThrow(new OperationStoppedException("Throw OperationStoppedException and check response."));
+
+        HttpStatus httpStatus = HttpStatus.CONFLICT;
+        APIExceptionTemplate responseExpected = new APIExceptionTemplate( "Throw OperationStoppedException and check response.", httpStatus.getReasonPhrase(), httpStatus.value(), new Date());
+
+        //when and then
+        //hit the endpoint where this is thrown and get response.
+        MvcResult result = mockMvc.perform(post("/books/borrow-info")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(getJsonString(requestContent))
+        )
+                .andDo(print())
+                .andExpect(status().isConflict())
                 .andReturn();
 
         APIExceptionTemplate response = objectMapper.readValue(result.getResponse().getContentAsString(), APIExceptionTemplate.class);
