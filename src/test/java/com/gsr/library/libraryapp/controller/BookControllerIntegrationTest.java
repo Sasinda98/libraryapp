@@ -136,57 +136,7 @@ class BookControllerIntegrationTest {
 
         assertThat(responseBook).isEqualTo(expectedResponse);
     }
-
-    @Test
-    void deleteABookThrowsNoResourceFoundException() throws Exception {
-        //given
-        Long bookID = 1L;
-        Book book = new Book("Garry", "Fiction", 3, 1234);
-        book.setBookID(bookID);
-
-        when(bookService.deleteBook(bookID)).thenThrow(new NoResourceFoundException("No such book found to delete."));
-
-        //(String message, String error, Integer status, Date timestamp)
-        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
-        APIExceptionTemplate responseExpected = new APIExceptionTemplate( "No such book found to delete.", httpStatus.getReasonPhrase(), httpStatus.value(), new Date());
-        //when and then
-        MvcResult mvcResult = mockMvc.perform(
-            delete("/books/{book_id}", bookID)
-        )
-        .andDo(print())
-        .andExpect(status().isNotFound())
-        .andReturn();
-
-        APIExceptionTemplate response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), APIExceptionTemplate.class);
-        System.out.println(response);
-        assertThat(response).isEqualTo(responseExpected);
-    }
-
-    @Test
-    void deleteABookThrowsOperationStoppedException() throws Exception {
-        //given
-        Long bookID = 1L;
-        Book book = new Book("Garry", "Fiction", 3, 1234);
-        book.setBookID(bookID);
-
-        when(bookService.deleteBook(bookID)).thenThrow(new OperationStoppedException("Book already borrowed, book can be deleted when all books are returned."));
-
-        //(String message, String error, Integer status, Date timestamp)
-        HttpStatus httpStatus = HttpStatus.CONFLICT;
-        APIExceptionTemplate responseExpected = new APIExceptionTemplate( "Book already borrowed, book can be deleted when all books are returned.", httpStatus.getReasonPhrase(), httpStatus.value(), new Date());
-        //when and then
-        MvcResult mvcResult = mockMvc.perform(
-                delete("/books/{book_id}", bookID)
-        )
-                .andDo(print())
-                .andExpect(status().isConflict())
-                .andReturn();
-
-        APIExceptionTemplate response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), APIExceptionTemplate.class);
-        System.out.println(response);
-        assertThat(response).isEqualTo(responseExpected);
-    }
-
+    
     @Test
     void borrowBook() throws Exception {
         //given
