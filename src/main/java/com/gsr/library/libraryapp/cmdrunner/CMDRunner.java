@@ -1,31 +1,21 @@
 package com.gsr.library.libraryapp.cmdrunner;
 
-import com.gsr.library.libraryapp.controller.BookController;
-import com.gsr.library.libraryapp.controller.ReviewController;
-import com.gsr.library.libraryapp.controller.UserController;
 import com.gsr.library.libraryapp.domain.Book;
 import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.repositories.BookRepository;
-import com.gsr.library.libraryapp.repositories.ReviewRepository;
 import com.gsr.library.libraryapp.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 
 
 @Component
 public class CMDRunner implements CommandLineRunner {
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
-    private final ReviewRepository reviewRepository;
 
-    public CMDRunner(BookRepository bookRepository, UserRepository userRepository, ReviewRepository reviewRepository) {
+    public CMDRunner(BookRepository bookRepository, UserRepository userRepository) {
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
-        this.reviewRepository = reviewRepository;
     }
 
     @Override
