@@ -57,10 +57,9 @@ class BookControllerIntegrationTest {
     private MockMvc mockMvc;
     @MockBean BookService bookService;
 
-    private ModelMapper modelMapper = new ModelMapper();
-    private ObjectMapper objectMapper = new ObjectMapper();
-
-
+    private final ModelMapper modelMapper = new ModelMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    
     private String getJsonString(Object object) throws JsonProcessingException {
         return objectMapper.writeValueAsString(object);
     }
