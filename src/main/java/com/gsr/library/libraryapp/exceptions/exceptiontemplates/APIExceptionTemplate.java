@@ -58,12 +58,12 @@ public class APIExceptionTemplate {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         APIExceptionTemplate that = (APIExceptionTemplate) o;
-        return Objects.equals(message, that.message) && Objects.equals(error, that.error) && Objects.equals(status, that.status) && Objects.equals(timestamp, that.timestamp);
+        return Objects.equals(message, that.message) && Objects.equals(error, that.error) && Objects.equals(status, that.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(message, error, status, timestamp);
+        return Objects.hash(message, error, status);
     }
 
     @Override
@@ -72,7 +72,6 @@ public class APIExceptionTemplate {
                 "message='" + message + '\'' +
                 ", error='" + error + '\'' +
                 ", status=" + status +
-                ", timestamp=" + timestamp +
                 '}';
     }
 }
