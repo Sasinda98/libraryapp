@@ -3,6 +3,7 @@ package com.gsr.library.libraryapp.domain.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class UserDto {
 
@@ -77,5 +78,30 @@ public class UserDto {
 
     public void setModifiedAt(Date modifiedAt) {
         this.modifiedAt = modifiedAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDto userDto = (UserDto) o;
+        return Objects.equals(userID, userDto.userID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userID);
+    }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "userID=" + userID +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                '}';
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 public class BookDto {
     @JsonProperty("book_id")
@@ -88,6 +89,19 @@ public class BookDto {
 
     public void setIsbn(Integer isbn) {
         this.isbn = isbn;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookDto bookDto = (BookDto) o;
+        return Objects.equals(bookID, bookDto.bookID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookID);
     }
 
     @Override
