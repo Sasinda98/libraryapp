@@ -64,19 +64,7 @@ class BookControllerIntegrationTest {
     private String getJsonString(Object object) throws JsonProcessingException {
         return objectMapper.writeValueAsString(object);
     }
-
-    @Test
-    void getBorrowersForABookNoBorrowers() throws Exception {
-        mockMvc.perform(
-            get("/books/{book_id}/borrowers", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-        .andExpect(status().isOk())
-                .andDo(print())
-        .andExpect(jsonPath("$.number_of_users").value(0))
-        .andExpect(jsonPath("$.users").value(new ArrayList<User>()));
-    }
-
+    
     @Test
     void getBorrowersForABookBorrowersAvail() throws Exception {
         //given
