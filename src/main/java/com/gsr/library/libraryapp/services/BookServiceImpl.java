@@ -104,7 +104,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     @Transactional
-    public void borrowBook(Long userID, Long bookID) throws OperationStoppedException {
+    public Boolean borrowBook(Long userID, Long bookID) throws OperationStoppedException {
         Optional<User> optionalUser = userService.getUserByID(userID);
         Optional<Book> optionalBook = bookRepository.findById(bookID);
         Boolean isBorrowed = bookRepository.isBookBorrowedByUser(userID, bookID);
@@ -128,11 +128,12 @@ public class BookServiceImpl implements BookService{
 
         bookRepository.save(book);
         userService.updateUser(user);
+        return true;
     }
 
     @Override
     @Transactional
-    public void returnBook(Long userID, Long bookID) throws OperationStoppedException {
+    public Boolean returnBook(Long userID, Long bookID) throws OperationStoppedException {
         Optional<User> optionalUser = userService.getUserByID(userID);
         Optional<Book> optionalBook = bookRepository.findById(bookID);
         Boolean isBorrowed = bookRepository.isBookBorrowedByUser(userID, bookID);
@@ -152,5 +153,6 @@ public class BookServiceImpl implements BookService{
 
         bookRepository.save(book);
         userService.updateUser(user);
+        return true;
     }
 }

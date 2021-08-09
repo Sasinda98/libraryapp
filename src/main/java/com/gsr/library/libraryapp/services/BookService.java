@@ -23,7 +23,7 @@ public interface BookService {
 
     Book deleteBook(Long bookID) throws OperationStoppedException;
 
-    void borrowBook(Long userID, Long bookID) throws OperationStoppedException;
+    Boolean borrowBook(Long userID, Long bookID) throws OperationStoppedException;
 
-    void returnBook(Long userID, Long bookID) throws OperationStoppedException;
+    Boolean returnBook(Long userID, Long bookID) throws OperationStoppedException;
 }
