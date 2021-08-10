@@ -54,7 +54,7 @@ class UserControllerIntegrationTest {
 
         //when and then
         MvcResult result = mockMvc.perform(
-                get("/users/{user_id}/books", 1)
+            get("/users/{user_id}/books", 1)
         )
         .andExpect(status().isOk())
         .andReturn();

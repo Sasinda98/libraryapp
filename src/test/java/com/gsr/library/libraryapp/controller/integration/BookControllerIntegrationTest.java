@@ -136,9 +136,10 @@ class BookControllerIntegrationTest {
         APISuccessResponseDto expectedResponse = new APISuccessResponseDto("Book successfully borrowed.");
 
         //when and then
-        MvcResult result = mockMvc.perform(post("/books/borrow-info")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(getJsonString(requestContent))
+        MvcResult result = mockMvc.perform(
+            post("/books/borrow-info")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(getJsonString(requestContent))
         )
         .andDo(print())
         .andExpect(status().isOk())
@@ -160,9 +161,10 @@ class BookControllerIntegrationTest {
         APISuccessResponseDto expectedResponse = new APISuccessResponseDto("Book successfully returned.");
 
         //when and then
-        MvcResult result = mockMvc.perform(post("/books/return-info")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(getJsonString(requestContent))
+        MvcResult result = mockMvc.perform(
+            post("/books/return-info")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(getJsonString(requestContent))
         )
         .andDo(print())
         .andExpect(status().isOk())
@@ -185,7 +187,7 @@ class BookControllerIntegrationTest {
 
         //when and then
         MvcResult result = mockMvc.perform(
-                put("/books")
+            put("/books")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(getJsonString(requestContent))
         )
@@ -216,13 +218,14 @@ class BookControllerIntegrationTest {
 
         //when and then
         //hit the endpoint where this is thrown and get response.
-        MvcResult result = mockMvc.perform(put("/books")
+        MvcResult result = mockMvc.perform(
+            put("/books")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(getJsonString(requestContent))
         )
-                .andDo(print())
-                .andExpect(status().isNotFound())
-                .andReturn();
+        .andDo(print())
+        .andExpect(status().isNotFound())
+        .andReturn();
 
         APIExceptionTemplate response = objectMapper.readValue(result.getResponse().getContentAsString(), APIExceptionTemplate.class);
         assertThat(response).isEqualTo(responseExpected);
@@ -247,13 +250,14 @@ class BookControllerIntegrationTest {
 
         //when and then
         //hit the endpoint where this is thrown and get response.
-        MvcResult result = mockMvc.perform(put("/books")
+        MvcResult result = mockMvc.perform(
+            put("/books")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(getJsonString(requestContent))
         )
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andReturn();
+        .andDo(print())
+        .andExpect(status().isBadRequest())
+        .andReturn();
 
         APIExceptionTemplate response = objectMapper.readValue(result.getResponse().getContentAsString(), APIExceptionTemplate.class);
         assertThat(response).isEqualTo(responseExpected);
@@ -274,13 +278,14 @@ class BookControllerIntegrationTest {
 
         //when and then
         //hit the endpoint where this is thrown and get response.
-        MvcResult result = mockMvc.perform(post("/books/borrow-info")
+        MvcResult result = mockMvc.perform(
+            post("/books/borrow-info")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(getJsonString(requestContent))
         )
-                .andDo(print())
-                .andExpect(status().isConflict())
-                .andReturn();
+        .andDo(print())
+        .andExpect(status().isConflict())
+        .andReturn();
 
         APIExceptionTemplate response = objectMapper.readValue(result.getResponse().getContentAsString(), APIExceptionTemplate.class);
         assertThat(response).isEqualTo(responseExpected);
