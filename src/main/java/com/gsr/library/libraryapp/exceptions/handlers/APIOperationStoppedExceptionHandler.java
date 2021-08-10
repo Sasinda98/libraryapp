@@ -7,14 +7,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @ControllerAdvice
 public class APIOperationStoppedExceptionHandler {
     @ExceptionHandler(value = {OperationStoppedException.class})
-    public ResponseEntity<Object> handleAPIException(OperationStoppedException ex){
+    public ResponseEntity<Object> handleAPIException(HttpServletRequest request, OperationStoppedException ex){
         HttpStatus httpStatus = HttpStatus.CONFLICT;
-        APIExceptionTemplate exceptionDetailsToExpose = new APIExceptionTemplate(ex.getMessage(), httpStatus.getReasonPhrase(),
+        String servletPath = request.getServletPath();
+        APIExceptionTemplate exceptionDetailsToExpose = new APIExceptionTemplate(ex.getMessage(), httpStatus.getReasonPhrase(), servletPath,
                 httpStatus.value(), new Date());
         return new ResponseEntity<>(exceptionDetailsToExpose, httpStatus);
     }

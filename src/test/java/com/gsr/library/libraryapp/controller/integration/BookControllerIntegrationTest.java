@@ -214,7 +214,7 @@ class BookControllerIntegrationTest {
         when(bookService.updateBook(b1)).thenThrow(new NoResourceFoundException("Throw NoResourceFoundException and check response."));
 
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
-        APIExceptionTemplate responseExpected = new APIExceptionTemplate( "Throw NoResourceFoundException and check response.", httpStatus.getReasonPhrase(), httpStatus.value(), new Date());
+        APIExceptionTemplate responseExpected = new APIExceptionTemplate( "Throw NoResourceFoundException and check response.", httpStatus.getReasonPhrase(), "",httpStatus.value(), new Date());
 
         //when and then
         //hit the endpoint where this is thrown and get response.
@@ -246,7 +246,7 @@ class BookControllerIntegrationTest {
         when(bookService.updateBook(b1)).thenThrow(new ValidationException("Throw ValidationException and check response."));
 
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        APIExceptionTemplate responseExpected = new APIExceptionTemplate( "Throw ValidationException and check response.", httpStatus.getReasonPhrase(), httpStatus.value(), new Date());
+        APIExceptionTemplate responseExpected = new APIExceptionTemplate( "Throw ValidationException and check response.", httpStatus.getReasonPhrase(), "", httpStatus.value(), new Date());
 
         //when and then
         //hit the endpoint where this is thrown and get response.
@@ -274,7 +274,7 @@ class BookControllerIntegrationTest {
         when(bookService.borrowBook(2L, 1L)).thenThrow(new OperationStoppedException("Throw OperationStoppedException and check response."));
 
         HttpStatus httpStatus = HttpStatus.CONFLICT;
-        APIExceptionTemplate responseExpected = new APIExceptionTemplate( "Throw OperationStoppedException and check response.", httpStatus.getReasonPhrase(), httpStatus.value(), new Date());
+        APIExceptionTemplate responseExpected = new APIExceptionTemplate( "Throw OperationStoppedException and check response.", httpStatus.getReasonPhrase(), "", httpStatus.value(), new Date());
 
         //when and then
         //hit the endpoint where this is thrown and get response.
