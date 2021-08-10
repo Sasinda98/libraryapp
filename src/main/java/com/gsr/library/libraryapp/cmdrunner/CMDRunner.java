@@ -20,13 +20,12 @@ public class CMDRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Book b1 = new Book("Garry", "Fiction", 3, 1234);
+        Book b1 = new Book("13 Hours in Benghazi", "Non Fiction", 3, 1234);
         Book b2 = new Book("Bravo Two Zero", "Non Fiction", 3, 2345);
         Book b3 = new Book("Ghost Patrol", "Non Fiction", 2, 3456);
         Book b4 = new Book("Frankenstein", "Fiction", 1, 4567);
         Book b5 = new Book("Glass Hotel", "Science Fiction", 5, 5678);
         Book b6 = new Book("Sherlock Holmes", "Mystery", 8, 6789);
-
 
         User u1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
         User u2 = new User("John", "Doe", "john@domain.com");
@@ -41,5 +40,15 @@ public class CMDRunner implements CommandLineRunner {
         u1.getBorrowedBooks().add(b2);
         bookRepository.save(b2);
         userRepository.save(u1);
+
+        b3.getBorrowers().add(u2);
+        u2.getBorrowedBooks().add(b3);
+        bookRepository.save(b3);
+        userRepository.save(u2);
+
+        bookRepository.save(b4);
+        bookRepository.save(b5);
+        bookRepository.save(b6);
+        userRepository.save(u3);
     }
 }
