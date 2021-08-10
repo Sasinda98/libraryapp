@@ -2,6 +2,7 @@ package com.gsr.library.libraryapp.services;
 
 import com.gsr.library.libraryapp.domain.Book;
 import com.gsr.library.libraryapp.domain.User;
+import com.gsr.library.libraryapp.exceptions.NoResourceFoundException;
 import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 
@@ -19,11 +20,11 @@ public interface BookService {
 
     List<User> getBorrowersForABookByBookID(Long bookID);
 
-    Book updateBook(Book book) throws ValidationException, OperationStoppedException;
+    Book updateBook(Book book) throws ValidationException, NoResourceFoundException;
 
-    Book deleteBook(Long bookID) throws OperationStoppedException;
+    Book deleteBook(Long bookID) throws OperationStoppedException, NoResourceFoundException;
 
-    Boolean borrowBook(Long userID, Long bookID) throws OperationStoppedException;
+    Boolean borrowBook(Long userID, Long bookID) throws OperationStoppedException, NoResourceFoundException;
 
-    Boolean returnBook(Long userID, Long bookID) throws OperationStoppedException;
+    Boolean returnBook(Long userID, Long bookID) throws OperationStoppedException, NoResourceFoundException;
 }

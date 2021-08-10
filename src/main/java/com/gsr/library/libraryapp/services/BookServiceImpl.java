@@ -63,7 +63,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     @Transactional
-    public Book updateBook(Book book) throws ValidationException, OperationStoppedException {
+    public Book updateBook(Book book) throws ValidationException, NoResourceFoundException {
         Optional<Book> bookOptional = bookRepository.findById(book.getBookID());
 
         if (!bookOptional.isPresent()){
@@ -86,7 +86,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     @Transactional
-    public Book deleteBook(Long bookID) throws OperationStoppedException {
+    public Book deleteBook(Long bookID) throws OperationStoppedException, NoResourceFoundException {
         Optional<Book> bookOptional = bookRepository.findById(bookID);
 
         if (!bookOptional.isPresent()){
@@ -104,7 +104,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     @Transactional
-    public Boolean borrowBook(Long userID, Long bookID) throws OperationStoppedException {
+    public Boolean borrowBook(Long userID, Long bookID) throws OperationStoppedException, NoResourceFoundException {
         Optional<User> optionalUser = userService.getUserByID(userID);
         Optional<Book> optionalBook = bookRepository.findById(bookID);
         Boolean isBorrowed = bookRepository.isBookBorrowedByUser(userID, bookID);
@@ -133,7 +133,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     @Transactional
-    public Boolean returnBook(Long userID, Long bookID) throws OperationStoppedException {
+    public Boolean returnBook(Long userID, Long bookID) throws OperationStoppedException, NoResourceFoundException {
         Optional<User> optionalUser = userService.getUserByID(userID);
         Optional<Book> optionalBook = bookRepository.findById(bookID);
         Boolean isBorrowed = bookRepository.isBookBorrowedByUser(userID, bookID);
