@@ -20,6 +20,7 @@ public class SwaggerConfiguration {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build()
+                .useDefaultResponseMessages(false)  //prevent swagger from putting default response messages.
                 .pathMapping("/");
     }
 }
