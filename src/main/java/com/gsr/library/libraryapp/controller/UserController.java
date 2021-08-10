@@ -7,6 +7,7 @@ import com.gsr.library.libraryapp.domain.dto.ListBookDto;
 import com.gsr.library.libraryapp.domain.dto.ListUserDto;
 import com.gsr.library.libraryapp.services.UserService;
 import com.gsr.library.libraryapp.services.UserServiceImpl;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +36,8 @@ public class UserController {
     public List<User> getUsers(){
         return userServiceImpl.getUsers();
     }
-    
+
+    @ApiOperation(value = "Gets a list of books borrowed by a specific user.")
     @GetMapping("/{user_id}/books")
     public ListBookDto getBooksBorrowedByAUser(@PathVariable(name = "user_id") Long userID){
         List<Book> books = userServiceImpl.getBooksBorrowedByUserID(userID);

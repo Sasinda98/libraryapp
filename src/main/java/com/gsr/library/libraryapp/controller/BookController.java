@@ -13,6 +13,7 @@ import com.gsr.library.libraryapp.exceptions.ValidationException;
 import com.gsr.library.libraryapp.exceptions.exceptiontemplates.APIExceptionTemplate;
 import com.gsr.library.libraryapp.services.BookService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.modelmapper.ModelMapper;
@@ -41,6 +42,7 @@ public class BookController {
         return bookServiceImpl.getAllBooks();
     }
 
+    @ApiOperation(value = "Gets a list of users who has borrrowed a specific book.")
     @GetMapping("/{book_id}/borrowers")
     public ListUserDto getBorrowersForABook(@PathVariable(name = "book_id") Long book_id){
         List<User> users = bookServiceImpl.getBorrowersForABookByBookID(book_id);
@@ -48,6 +50,7 @@ public class BookController {
         return new ListUserDto(userDtos.size(), userDtos);
     }
 
+    @ApiOperation(value = "Deletes a book")
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "No such book to delete.", response = APIExceptionTemplate.class),
             @ApiResponse(code = 409, message = "Book already borrowed, cannot delete until all books are returned.", response = APIExceptionTemplate.class)
@@ -58,6 +61,7 @@ public class BookController {
         return modelMapper.map(deletedBook, BookDto.class);
     }
 
+    @ApiOperation(value = "Allows a user to borrow a book.")
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "No such book or user.", response = APIExceptionTemplate.class),
             @ApiResponse(code = 400, message = "Bad request.", response = APIExceptionTemplate.class),
@@ -79,6 +83,7 @@ public class BookController {
         return new APISuccessResponseDto("Book successfully borrowed.");
     }
 
+    @ApiOperation(value = "Allows a user to return a book.")
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "No such book or user.", response = APIExceptionTemplate.class),
             @ApiResponse(code = 400, message = "Bad request.", response = APIExceptionTemplate.class),
@@ -99,6 +104,7 @@ public class BookController {
         return new APISuccessResponseDto("Book successfully returned.");
     }
 
+    @ApiOperation(value = "Allows a user to update details of a book.")
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "No such book to update.", response = APIExceptionTemplate.class),
             @ApiResponse(code = 400, message = "Bad request.", response = APIExceptionTemplate.class),
