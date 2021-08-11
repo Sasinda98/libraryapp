@@ -1,5 +1,6 @@
 package com.gsr.library.libraryapp.exceptions.exceptiontemplates;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.http.HttpStatus;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ public class APIExceptionTemplate {
     private String error;
     private String path;
     private Integer status;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private Date timestamp;
 
     public APIExceptionTemplate() {

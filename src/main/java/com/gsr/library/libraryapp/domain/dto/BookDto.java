@@ -1,5 +1,6 @@
 package com.gsr.library.libraryapp.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -15,10 +16,15 @@ public class BookDto {
     private String category;
     @JsonProperty("quantity")
     private Integer quantity;
+
     @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private Date createdAt;
+
     @JsonProperty("modified_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private Date modifiedAt;
+
     @JsonProperty("isbn")
     private Integer isbn;
 

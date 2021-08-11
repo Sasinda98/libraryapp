@@ -1,5 +1,6 @@
 package com.gsr.library.libraryapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -20,8 +21,11 @@ public class User {
     private String email;
 
     @Temporal(value = TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private Date createdAt;
+
     @Temporal(value = TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private Date modifiedAt;
 
     @ManyToMany
