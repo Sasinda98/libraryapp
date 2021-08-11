@@ -1,5 +1,7 @@
 package com.gsr.library.libraryapp.exceptions.handlers;
 
+import com.gsr.library.libraryapp.exceptions.NoResourceFoundException;
+import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 import com.gsr.library.libraryapp.exceptions.exceptiontemplates.APIExceptionTemplate;
 import org.springframework.beans.ConversionNotSupportedException;
@@ -43,5 +45,32 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         APIExceptionTemplate exceptionDetailsToExpose = new APIExceptionTemplate("Something went wrong", status.getReasonPhrase(), servletPath,
                 status.value(), new Date());
         return new ResponseEntity<>(exceptionDetailsToExpose, status);
+    }
+
+    @ExceptionHandler(value = {ValidationException.class})
+    public ResponseEntity<Object> handleAPIException(HttpServletRequest request, ValidationException ex){
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        String servletPath = request.getServletPath();
+        APIExceptionTemplate exceptionDetailsToExpose = new APIExceptionTemplate(ex.getMessage(), httpStatus.getReasonPhrase(), servletPath,
+                httpStatus.value(), new Date());
+        return new ResponseEntity<>(exceptionDetailsToExpose, httpStatus);
+    }
+
+    @ExceptionHandler(value = {OperationStoppedException.class})
+    public ResponseEntity<Object> handleAPIException(HttpServletRequest request, OperationStoppedException ex){
+        HttpStatus httpStatus = HttpStatus.CONFLICT;
+        String servletPath = request.getServletPath();
+        APIExceptionTemplate exceptionDetailsToExpose = new APIExceptionTemplate(ex.getMessage(), httpStatus.getReasonPhrase(), servletPath,
+                httpStatus.value(), new Date());
+        return new ResponseEntity<>(exceptionDetailsToExpose, httpStatus);
+    }
+
+    @ExceptionHandler(value = {NoResourceFoundException.class})
+    public ResponseEntity<Object> handleAPIException(HttpServletRequest request, NoResourceFoundException ex){
+        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+        String servletPath = request.getServletPath();
+        APIExceptionTemplate exceptionDetailsToExpose = new APIExceptionTemplate(ex.getMessage(), httpStatus.getReasonPhrase(), servletPath,
+                httpStatus.value(), new Date());
+        return new ResponseEntity<>(exceptionDetailsToExpose, httpStatus);
     }
 }
