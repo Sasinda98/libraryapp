@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
                 .inMemory()
                 .withClient("web")
                 .secret(passwordEncoder.encode("pass"))
-                .authorizedGrantTypes("password", "authorization_code")
+                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
                 .scopes("READ", "WRITE")
                 .accessTokenValiditySeconds(3600);
     }
