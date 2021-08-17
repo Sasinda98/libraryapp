@@ -1,11 +1,10 @@
 package com.gsr.library.libraryapp.controller.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gsr.library.libraryapp.controller.BookController;
 import com.gsr.library.libraryapp.domain.Book;
-import com.gsr.library.libraryapp.domain.User;
+import com.gsr.library.libraryapp.domain.MUser;
 import com.gsr.library.libraryapp.domain.dto.APISuccessResponseDto;
 import com.gsr.library.libraryapp.domain.dto.BookDto;
 import com.gsr.library.libraryapp.domain.dto.ListUserDto;
@@ -14,35 +13,22 @@ import com.gsr.library.libraryapp.exceptions.NoResourceFoundException;
 import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 import com.gsr.library.libraryapp.exceptions.exceptiontemplates.APIExceptionTemplate;
-import com.gsr.library.libraryapp.repositories.BookRepository;
 import com.gsr.library.libraryapp.services.BookService;
-import com.gsr.library.libraryapp.services.BookServiceImpl;
-import com.gsr.library.libraryapp.services.UserService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.ui.ModelMap;
 
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 //import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.mockito.Mockito.*;
@@ -69,11 +55,11 @@ class BookControllerIntegrationTest {
     @Test
     void getBorrowersForABookBorrowersAvail() throws Exception {
         //given
-        User u1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
+        MUser u1 = new MUser("Gayal", "Rupasinghe", "gayal@domain.com");
         u1.setUserID(1L);
-        User u2 = new User("John", "Doe", "john@domain.com");
+        MUser u2 = new MUser("John", "Doe", "john@domain.com");
         u2.setUserID(2L);
-        List<User> usersList = new ArrayList<>();
+        List<MUser> usersList = new ArrayList<>();
         usersList.add(u1);
         usersList.add(u2);
 

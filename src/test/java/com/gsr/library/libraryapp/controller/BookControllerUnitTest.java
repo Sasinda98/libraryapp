@@ -3,14 +3,13 @@ package com.gsr.library.libraryapp.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gsr.library.libraryapp.domain.Book;
-import com.gsr.library.libraryapp.domain.User;
+import com.gsr.library.libraryapp.domain.MUser;
 import com.gsr.library.libraryapp.domain.dto.APISuccessResponseDto;
 import com.gsr.library.libraryapp.domain.dto.BookDto;
 import com.gsr.library.libraryapp.domain.dto.ListUserDto;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 import com.gsr.library.libraryapp.services.BookService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -20,7 +19,6 @@ import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -49,14 +47,14 @@ class BookControllerUnitTest {
         //given
         Long bookID = 1L;
         Long userID = 2L;
-        User user = new User("Gayal", "Rupasinghe", "gayal@domain.com");
-        user.setUserID(userID);
+        MUser MUser = new MUser("Gayal", "Rupasinghe", "gayal@domain.com");
+        MUser.setUserID(userID);
 
-        ArrayList<User> userArrayList = new ArrayList<>();
-        userArrayList.add(user);
+        ArrayList<MUser> MUserArrayList = new ArrayList<>();
+        MUserArrayList.add(MUser);
 
         given(testBookService.getBorrowersForABookByBookID(bookID))
-                .willReturn(userArrayList);
+                .willReturn(MUserArrayList);
 
         //when
         ListUserDto actualReturn = testBookController.getBorrowersForABook(bookID);
@@ -68,7 +66,7 @@ class BookControllerUnitTest {
         Long bookIDCaptured = bookIDCaptor.getValue();
 
         assertThat(bookIDCaptured).isEqualTo(bookID);
-        assertThat(actualReturn.getNumberOfUsers()).isEqualTo(userArrayList.size());
+        assertThat(actualReturn.getNumberOfUsers()).isEqualTo(MUserArrayList.size());
         assertThat(actualReturn
                 .getUsers()
                 .get(0)

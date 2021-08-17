@@ -1,12 +1,10 @@
 package com.gsr.library.libraryapp.controller;
 
 import com.gsr.library.libraryapp.domain.Book;
-import com.gsr.library.libraryapp.domain.User;
+import com.gsr.library.libraryapp.domain.MUser;
 import com.gsr.library.libraryapp.domain.dto.BookDto;
 import com.gsr.library.libraryapp.domain.dto.ListBookDto;
-import com.gsr.library.libraryapp.domain.dto.ListUserDto;
 import com.gsr.library.libraryapp.services.UserService;
-import com.gsr.library.libraryapp.services.UserServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +31,7 @@ public class UserController {
 
     @ApiIgnore
     @GetMapping
-    public List<User> getUsers(){
+    public List<MUser> getUsers(){
         return userServiceImpl.getUsers();
     }
 

@@ -1,12 +1,10 @@
 package com.gsr.library.libraryapp.services;
 
 import com.gsr.library.libraryapp.domain.Book;
-import com.gsr.library.libraryapp.domain.User;
+import com.gsr.library.libraryapp.domain.MUser;
 import com.gsr.library.libraryapp.exceptions.NoResourceFoundException;
 import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.repositories.UserRepository;
-import jdk.javadoc.internal.doclets.toolkit.util.ResourceIOException;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,26 +22,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<User> getUsers(){
-        return (List<User>) userRepository.findAll();
+    public List<MUser> getUsers(){
+        return (List<MUser>) userRepository.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<User> getUserByID(Long userID) {
+    public Optional<MUser> getUserByID(Long userID) {
         return userRepository.findById(userID);
     }
 
     @Override
     @Transactional
-    public void updateUser(User user) throws OperationStoppedException {
+    public void updateUser(MUser MUser) throws OperationStoppedException {
         //check for user.
-        Optional<User> optionalUser = userRepository.findById(user.getUserID());
+        Optional<MUser> optionalUser = userRepository.findById(MUser.getUserID());
 
         if(!optionalUser.isPresent())
             throw new NoResourceFoundException("User not found to update details.");
 
-        userRepository.save(user);
+        userRepository.save(MUser);
     }
 
     @Override
