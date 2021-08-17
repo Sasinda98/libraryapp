@@ -57,6 +57,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("PASSED IN USERNAME: " + username);
         Optional<User> userOptional = userRepository.findByUsername(username);
         userOptional.orElseThrow(() -> new UsernameNotFoundException("Username or password incorrect."));
 
