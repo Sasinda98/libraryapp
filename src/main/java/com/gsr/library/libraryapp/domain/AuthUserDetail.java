@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class AuthUserDetail extends User implements UserDetails {
+    public AuthUserDetail() {
+    }
 
     public AuthUserDetail(User u) {
         super(u);

@@ -2,12 +2,14 @@ package com.gsr.library.libraryapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.*;
 
 @Entity(name = "MUser")
 //@Table(name = "muser")
+@Data
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -56,6 +58,7 @@ public class User {
     }
 
     public User(User u) {
+        this.id = u.getId();
         this.firstName = u.getFirstName();
         this.lastName = u.getLastName();
         this.email = u.getEmail();
@@ -66,6 +69,7 @@ public class User {
         this.username = u.getUsername();
         this.password = u.getPassword();
         this.enabled = u.isEnabled();
+        this.credentialsNonExpired = u.isCredentialsNonExpired();
         this.accountNonExpired = u.isAccountNonExpired();
         this.accountNonLocked = u.isAccountNonLocked();
         this.roles = u.getRoles();

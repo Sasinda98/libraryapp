@@ -29,7 +29,11 @@ public class CMDRunner implements CommandLineRunner {
 
         User u1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
         u1.setUsername("gayal");
-        u1.setPassword("pass");
+        u1.setPassword("{bcrypt}$2a$10$jsjZ0WtNIrTm.rYSP7.BoexjGly7OagLo8fS2kUFN1z7Ou4hrN3R2");
+        u1.setAccountNonExpired(true);
+        u1.setAccountNonLocked(true);
+        u1.setEnabled(true);
+        u1.setCredentialsNonExpired(true);
         User u2 = new User("John", "Doe", "john@domain.com");
         User u3 = new User("Lewis", "Hamilton", "lewis@domain.com");
 

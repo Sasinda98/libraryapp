@@ -16,8 +16,8 @@
 -- (4,1), /* delete admin */
 -- (2,2),  /* read operator */
 -- (3,2);  /* update operator */
--- insert into muser (Id, username,password, email, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked) VALUES ('1', 'krish','{bcrypt}$2a$10$ODGwrk2ufy5d7T6afmACwOA/6j6rvXiP5amAMt1YjOQSdEw44QdqG', 'k@krishantha.com', '1', '1', '1', '1');
--- insert into  muser (Id, username,password, email, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked) VALUES ('23', 'suranga', '{bcrypt}$2a$10$wQ8vZl3Zm3.zDSIcZEYym.bGq3fPMJXH9k.Vhudcfr6O6KQwDPSt6','s@krishantha.com', '1', '1', '1', '1');
+-- insert into muser (id, username,password, email, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked) VALUES ('1', 'krish','{bcrypt}$2a$10$ODGwrk2ufy5d7T6afmACwOA/6j6rvXiP5amAMt1YjOQSdEw44QdqG', 'k@krishantha.com', '1', '1', '1', '1');
+-- insert into  muser (id, username,password, email, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked) VALUES ('23', 'suranga', '{bcrypt}$2a$10$wQ8vZl3Zm3.zDSIcZEYym.bGq3fPMJXH9k.Vhudcfr6O6KQwDPSt6','s@krishantha.com', '1', '1', '1', '1');
 --
 -- INSERT INTO ROLE_USER (ROLE_ID, USER_ID)
 -- VALUES
