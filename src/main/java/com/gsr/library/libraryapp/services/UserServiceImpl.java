@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Service("userDetailsService")
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;

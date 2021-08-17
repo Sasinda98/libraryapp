@@ -47,7 +47,6 @@ create table if not exists  muser (
     constraint username unique (username)
 );
 
-
 create table  if not exists permission_role (
     permission_id int default null,
     role_id int default null,
