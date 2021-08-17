@@ -1,17 +1,15 @@
 package com.gsr.library.libraryapp.services;
 
-import com.gsr.library.libraryapp.domain.User;
+import com.gsr.library.libraryapp.domain.MUser;
 import com.gsr.library.libraryapp.exceptions.NoResourceFoundException;
-import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.repositories.UserRepository;
-import com.sun.org.apache.xpath.internal.Arg;
-import org.graalvm.compiler.lir.LIRInstruction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Optional;
@@ -23,7 +21,8 @@ import static org.mockito.Mockito.verify;
 
 @DataJpaTest
 @ExtendWith(MockitoExtension.class)
-class UserServiceImplTest {
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+class MUserServiceImplTest {
 
     @Mock
     private UserRepository testUserRepository;
@@ -54,38 +53,38 @@ class UserServiceImplTest {
     void updateUser(){
         //given
         Long userID = 1L;
-        User user = new User("Lewis", "Hamilton", "lewis@domain.com");
-        user.setUserID(userID);
+        MUser MUser = new MUser("Lewis", "Hamilton", "lewis@domain.com");
+        MUser.setUserID(userID);
 
-        Optional<User> userOptional = Optional.of(user);
+        Optional<MUser> userOptional = Optional.of(MUser);
         given(testUserRepository.findById(userID))
                 .willReturn(userOptional);
 
         //when
-        testUserService.updateUser(user);
+        testUserService.updateUser(MUser);
 
         //then
-        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+        ArgumentCaptor<MUser> userCaptor = ArgumentCaptor.forClass(MUser.class);
         verify(testUserRepository).save(userCaptor.capture());
 
-        User capturedUser = userCaptor.getValue();
+        MUser capturedMUser = userCaptor.getValue();
 
-        assertThat(capturedUser).isEqualTo(user);
+        assertThat(capturedMUser).isEqualTo(MUser);
     }
 
     @Test
     void updateUserThrowsOperationStoppedException(){
         //given
         Long userID = 1L;
-        User user = new User("Lewis", "Hamilton", "lewis@domain.com");
-        user.setUserID(userID);
+        MUser MUser = new MUser("Lewis", "Hamilton", "lewis@domain.com");
+        MUser.setUserID(userID);
 
-        Optional<User> userOptional = Optional.empty();
+        Optional<MUser> userOptional = Optional.empty();
         given(testUserRepository.findById(userID))
                 .willReturn(userOptional);
 
         //when and then
-        assertThatThrownBy(() -> testUserService.updateUser(user))
+        assertThatThrownBy(() -> testUserService.updateUser(MUser))
                 .isExactlyInstanceOf(NoResourceFoundException.class)
                 .hasMessage("User not found to update details.");
     }
@@ -94,8 +93,8 @@ class UserServiceImplTest {
     void getBooksBorrowedByUserID(){
         //given
         Long userID = 1L;
-        User user = new User("Lewis", "Hamilton", "lewis@domain.com");
-        user.setUserID(userID);
+        MUser MUser = new MUser("Lewis", "Hamilton", "lewis@domain.com");
+        MUser.setUserID(userID);
 
         //when
         testUserService.getBooksBorrowedByUserID(userID);

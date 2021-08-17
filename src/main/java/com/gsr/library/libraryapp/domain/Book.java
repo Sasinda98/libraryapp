@@ -1,8 +1,6 @@
 package com.gsr.library.libraryapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.*;
@@ -27,10 +25,7 @@ public class Book {
     private Integer isbn;
 
     @ManyToMany(mappedBy = "borrowedBooks")
-    private Set<User> borrowers = new HashSet<>();
-
-    @OneToMany(mappedBy = "book")
-    private Set<Review> reviews = new HashSet<>();
+    private Set<MUser> borrowers = new HashSet<>();
 
     public Book() {
     }
@@ -76,12 +71,8 @@ public class Book {
         this.quantity = quantity;
     }
 
-    public Set<User> getBorrowers() {
+    public Set<MUser> getBorrowers() {
         return borrowers;
-    }
-
-    public Set<Review> getReviews() {
-        return reviews;
     }
 
     public Integer getIsbn() {

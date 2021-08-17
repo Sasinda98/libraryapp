@@ -3,16 +3,14 @@ package com.gsr.library.libraryapp.controller;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gsr.library.libraryapp.domain.Book;
-import com.gsr.library.libraryapp.domain.User;
+import com.gsr.library.libraryapp.domain.MUser;
 import com.gsr.library.libraryapp.domain.dto.APISuccessResponseDto;
 import com.gsr.library.libraryapp.domain.dto.BookDto;
 import com.gsr.library.libraryapp.domain.dto.ListUserDto;
 import com.gsr.library.libraryapp.domain.dto.UserDto;
-import com.gsr.library.libraryapp.exceptions.NoResourceFoundException;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 import com.gsr.library.libraryapp.exceptions.exceptiontemplates.APIExceptionTemplate;
 import com.gsr.library.libraryapp.services.BookService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -20,7 +18,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,8 +42,8 @@ public class BookController {
     @ApiOperation(value = "Gets a list of users who has borrrowed a specific book.")
     @GetMapping("/{book_id}/borrowers")
     public ListUserDto getBorrowersForABook(@PathVariable(name = "book_id") Long book_id){
-        List<User> users = bookServiceImpl.getBorrowersForABookByBookID(book_id);
-        List<UserDto> userDtos = users.stream().map(user1 -> modelMapper.map(user1, UserDto.class)).collect(Collectors.toList());
+        List<MUser> MUsers = bookServiceImpl.getBorrowersForABookByBookID(book_id);
+        List<UserDto> userDtos = MUsers.stream().map(user1 -> modelMapper.map(user1, UserDto.class)).collect(Collectors.toList());
         return new ListUserDto(userDtos.size(), userDtos);
     }
 

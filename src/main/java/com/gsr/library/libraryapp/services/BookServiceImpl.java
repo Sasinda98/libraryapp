@@ -1,14 +1,12 @@
 package com.gsr.library.libraryapp.services;
 
 import com.gsr.library.libraryapp.domain.Book;
-import com.gsr.library.libraryapp.domain.User;
-import com.gsr.library.libraryapp.domain.dto.BookDto;
+import com.gsr.library.libraryapp.domain.MUser;
 import com.gsr.library.libraryapp.exceptions.NoResourceFoundException;
 import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.exceptions.ValidationException;
 import com.gsr.library.libraryapp.micellaneous.Validator;
 import com.gsr.library.libraryapp.repositories.BookRepository;
-import jdk.internal.module.IllegalAccessLogger;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -57,7 +55,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<User> getBorrowersForABookByBookID(Long bookID) {
+    public List<MUser> getBorrowersForABookByBookID(Long bookID) {
         return bookRepository.getBorrowersForABookByBookID(bookID);
     }
 
@@ -105,7 +103,7 @@ public class BookServiceImpl implements BookService{
     @Override
     @Transactional
     public Boolean borrowBook(Long userID, Long bookID) throws OperationStoppedException, NoResourceFoundException {
-        Optional<User> optionalUser = userService.getUserByID(userID);
+        Optional<MUser> optionalUser = userService.getUserByID(userID);
         Optional<Book> optionalBook = bookRepository.findById(bookID);
         Boolean isBorrowed = bookRepository.isBookBorrowedByUser(userID, bookID);
 
@@ -119,22 +117,22 @@ public class BookServiceImpl implements BookService{
             throw new OperationStoppedException("Book is not available to borrow, quantity is 0.");
 
         //Green light to borrow.
-        User user = optionalUser.get();
+        MUser MUser = optionalUser.get();
         Book book = optionalBook.get();
 
         book.setQuantity(book.getQuantity() - 1);
-        user.getBorrowedBooks().add(book);
-        book.getBorrowers().add(user);
+        MUser.getBorrowedBooks().add(book);
+        book.getBorrowers().add(MUser);
 
         bookRepository.save(book);
-        userService.updateUser(user);
+        userService.updateUser(MUser);
         return true;
     }
 
     @Override
     @Transactional
     public Boolean returnBook(Long userID, Long bookID) throws OperationStoppedException, NoResourceFoundException {
-        Optional<User> optionalUser = userService.getUserByID(userID);
+        Optional<MUser> optionalUser = userService.getUserByID(userID);
         Optional<Book> optionalBook = bookRepository.findById(bookID);
         Boolean isBorrowed = bookRepository.isBookBorrowedByUser(userID, bookID);
 
@@ -144,15 +142,15 @@ public class BookServiceImpl implements BookService{
             throw new NoResourceFoundException("User or book being returned does not exist.");
 
         //Green light to return.
-        User user = optionalUser.get();
+        MUser MUser = optionalUser.get();
         Book book = optionalBook.get();
 
         book.setQuantity(book.getQuantity() + 1);
-        user.getBorrowedBooks().remove(book);
-        book.getBorrowers().remove(user);
+        MUser.getBorrowedBooks().remove(book);
+        book.getBorrowers().remove(MUser);
 
         bookRepository.save(book);
-        userService.updateUser(user);
+        userService.updateUser(MUser);
         return true;
     }
 }

@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class User {
+public class MUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userID;
@@ -33,13 +33,10 @@ public class User {
     @JsonIgnore
     private Set<Book> borrowedBooks = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    private Set<Review> reviews = new HashSet<>();
-
-    public User() {
+    public MUser() {
     }
 
-    public User(String firstName, String lastName, String email) {
+    public MUser(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -99,8 +96,8 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(userID, user.userID);
+        MUser MUser = (MUser) o;
+        return Objects.equals(userID, MUser.userID);
     }
 
     @Override
