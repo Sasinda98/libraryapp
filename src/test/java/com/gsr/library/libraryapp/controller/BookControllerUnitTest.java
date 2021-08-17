@@ -48,7 +48,7 @@ class BookControllerUnitTest {
         Long bookID = 1L;
         Long userID = 2L;
         User User = new User("Gayal", "Rupasinghe", "gayal@domain.com");
-        User.setUserID(userID);
+        User.setId(userID);
 
         ArrayList<User> UserArrayList = new ArrayList<>();
         UserArrayList.add(User);
@@ -79,7 +79,7 @@ class BookControllerUnitTest {
         //given
         Long bookID = 1L;
         Book b1 = new Book("Garry", "Fiction", 3, 1234);
-        b1.setBookID(bookID);
+        b1.setId(bookID);
 
         given(testBookService.deleteBook(bookID)).willReturn(b1);
 
@@ -180,7 +180,7 @@ class BookControllerUnitTest {
         ObjectMapper objectMapper = new ObjectMapper();
         Long bookID = 1L;
         Book bookObjectRepresentingAChange = new Book(null, "Fiction", null, null);
-        bookObjectRepresentingAChange.setBookID(bookID);
+        bookObjectRepresentingAChange.setId(bookID);
 
         BookDto changeDto = modelMapper.map(bookObjectRepresentingAChange, BookDto.class);
 

@@ -122,7 +122,7 @@ public class BookController {
 
             System.out.println("Actual Book = " + book);
 
-            if(book.getBookID() == null){
+            if(book.getId() == null){
                 throw new ValidationException("Specify book by its id.");
             }
             bookServiceImpl.updateBook(book);

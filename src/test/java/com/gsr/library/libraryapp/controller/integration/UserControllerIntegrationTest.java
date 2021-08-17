@@ -1,6 +1,5 @@
 package com.gsr.library.libraryapp.controller.integration;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gsr.library.libraryapp.controller.UserController;
 import com.gsr.library.libraryapp.domain.Book;
@@ -24,7 +23,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
@@ -40,9 +38,9 @@ class UserControllerIntegrationTest {
     void getBooksBorrowedByAUser() throws Exception {
         //given
         Book b1 = new Book("Garry", "Fiction", 3, 1234);
-        b1.setBookID(3L);
+        b1.setId(3L);
         Book b2 = new Book("Bravo Two Zero", "Non Fiction", 3, 2345);
-        b2.setBookID(4L);
+        b2.setId(4L);
 
         List<Book> bookList = new ArrayList<>();
         bookList.add(b1);

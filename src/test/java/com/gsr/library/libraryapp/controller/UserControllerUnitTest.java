@@ -42,7 +42,7 @@ class UserControllerUnitTest {
         Long userID = 1L;
         Long bookID = 2L;
         Book b1 = new Book("Garry", "Fiction", 3, 1234);
-        b1.setBookID(bookID);
+        b1.setId(bookID);
 
         ArrayList<Book> bookArrayList = new ArrayList<>();
         bookArrayList.add(b1);

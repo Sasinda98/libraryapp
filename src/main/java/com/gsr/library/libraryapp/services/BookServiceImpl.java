@@ -62,7 +62,7 @@ public class BookServiceImpl implements BookService{
     @Override
     @Transactional
     public Book updateBook(Book book) throws ValidationException, NoResourceFoundException {
-        Optional<Book> bookOptional = bookRepository.findById(book.getBookID());
+        Optional<Book> bookOptional = bookRepository.findById(book.getId());
 
         if (!bookOptional.isPresent()){
             throw new NoResourceFoundException("No such book found to update.");

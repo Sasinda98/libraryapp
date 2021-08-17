@@ -54,7 +54,7 @@ class UserServiceImplTest {
         //given
         Long userID = 1L;
         User User = new User("Lewis", "Hamilton", "lewis@domain.com");
-        User.setUserID(userID);
+        User.setId(userID);
 
         Optional<User> userOptional = Optional.of(User);
         given(testUserRepository.findById(userID))
@@ -77,7 +77,7 @@ class UserServiceImplTest {
         //given
         Long userID = 1L;
         User User = new User("Lewis", "Hamilton", "lewis@domain.com");
-        User.setUserID(userID);
+        User.setId(userID);
 
         Optional<User> userOptional = Optional.empty();
         given(testUserRepository.findById(userID))
@@ -94,7 +94,7 @@ class UserServiceImplTest {
         //given
         Long userID = 1L;
         User User = new User("Lewis", "Hamilton", "lewis@domain.com");
-        User.setUserID(userID);
+        User.setId(userID);
 
         //when
         testUserService.getBooksBorrowedByUserID(userID);

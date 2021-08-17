@@ -4,16 +4,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity(name = "MUser")
+//@Table(name = "muser")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userID;
+    private Long id;
     private String firstName;
     private String lastName;
 
@@ -33,7 +31,45 @@ public class User {
     @JsonIgnore
     private Set<Book> borrowedBooks = new HashSet<>();
 
+//
+    @Column(name = "username")
+    private String username;
+    @Column(name = "password")
+    private String password;
+    @Column(name = "enabled")
+    private boolean enabled;
+    @Column(name = "accountNonExpired")
+    private boolean accountNonExpired;
+    @Column(name = "credentialsNonExpired")
+    private boolean credentialsNonExpired;
+    @Column(name = "accountNonLocked")
+    private boolean accountNonLocked;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "role_user", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+//            inverseJoinColumns = {
+//                    @JoinColumn(name = "role_id", referencedColumnName = "id")})
+    @JoinTable(name = "role_user", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<Role> roles;
+
     public User() {
+    }
+
+    public User(User u) {
+        this.firstName = u.getFirstName();
+        this.lastName = u.getLastName();
+        this.email = u.getEmail();
+        this.createdAt = u.getCreatedAt();
+        this.modifiedAt = u.getModifiedAt();
+        this.borrowedBooks = u.getBorrowedBooks();
+
+        this.username = u.getUsername();
+        this.password = u.getPassword();
+        this.enabled = u.isEnabled();
+        this.accountNonExpired = u.isAccountNonExpired();
+        this.accountNonLocked = u.isAccountNonLocked();
+        this.roles = u.getRoles();
+
     }
 
     public User(String firstName, String lastName, String email) {
@@ -44,12 +80,12 @@ public class User {
         this.modifiedAt = new Date();
     }
 
-    public Long getUserID() {
-        return userID;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserID(Long userID) {
-        this.userID = userID;
+    public void setId(Long userID) {
+        this.id = userID;
     }
 
     public String getFirstName() {
@@ -92,23 +128,83 @@ public class User {
         this.modifiedAt = modifiedAt;
     }
 
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setBorrowedBooks(Set<Book> borrowedBooks) {
+        this.borrowedBooks = borrowedBooks;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isAccountNonExpired() {
+        return accountNonExpired;
+    }
+
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        this.accountNonExpired = accountNonExpired;
+    }
+
+    public boolean isCredentialsNonExpired() {
+        return credentialsNonExpired;
+    }
+
+    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+        this.credentialsNonExpired = credentialsNonExpired;
+    }
+
+    public boolean isAccountNonLocked() {
+        return accountNonLocked;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User User = (User) o;
-        return Objects.equals(userID, User.userID);
+        return Objects.equals(id, User.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userID);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "userID=" + userID +
+                "userID=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +

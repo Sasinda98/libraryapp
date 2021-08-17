@@ -28,6 +28,8 @@ public class CMDRunner implements CommandLineRunner {
         Book b6 = new Book("Sherlock Holmes", "Mystery", 8, 6789);
 
         User u1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
+        u1.setUsername("gayal");
+        u1.setPassword("pass");
         User u2 = new User("John", "Doe", "john@domain.com");
         User u3 = new User("Lewis", "Hamilton", "lewis@domain.com");
 

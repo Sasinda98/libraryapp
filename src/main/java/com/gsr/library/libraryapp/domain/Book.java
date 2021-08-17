@@ -9,7 +9,7 @@ import java.util.*;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long bookID;
+    private Long id;
     private String title;
     private String category;
     private Integer quantity;
@@ -39,12 +39,12 @@ public class Book {
         this.modifiedAt = new Date();
     }
 
-    public Long getBookID() {
-        return bookID;
+    public Long getId() {
+        return id;
     }
 
-    public void setBookID(Long bookID) {
-        this.bookID = bookID;
+    public void setId(Long bookID) {
+        this.id = bookID;
     }
 
     public String getTitle() {
@@ -100,18 +100,18 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return Objects.equals(bookID, book.bookID);
+        return Objects.equals(id, book.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookID);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "Book{" +
-                "bookID=" + bookID +
+                "bookID=" + id +
                 ", title='" + title + '\'' +
                 ", category='" + category + '\'' +
                 ", quantity=" + quantity +

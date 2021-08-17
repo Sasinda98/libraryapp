@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
@@ -18,6 +19,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
     Boolean checkIfUserExistByEmail(String email);
 
     @Query(value = "SELECT b FROM Book b\n" +
-            "JOIN b.borrowers u WHERE u.userID = ?1")
+            "JOIN b.borrowers u WHERE u.id = ?1")
     List<Book> getBooksBorrowedByUserID(Long userID);
+
+    Optional<User> findByUsername(String username);
 }

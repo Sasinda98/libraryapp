@@ -56,9 +56,9 @@ class BookControllerIntegrationTest {
     void getBorrowersForABookBorrowersAvail() throws Exception {
         //given
         User u1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
-        u1.setUserID(1L);
+        u1.setId(1L);
         User u2 = new User("John", "Doe", "john@domain.com");
-        u2.setUserID(2L);
+        u2.setId(2L);
         List<User> usersList = new ArrayList<>();
         usersList.add(u1);
         usersList.add(u2);
@@ -92,7 +92,7 @@ class BookControllerIntegrationTest {
         //given
         Long bookID = 1L;
         Book book = new Book("Garry", "Fiction", 3, 1234);
-        book.setBookID(bookID);
+        book.setId(bookID);
 
         when(bookService.deleteBook(bookID)).thenReturn(book);
 
@@ -193,7 +193,7 @@ class BookControllerIntegrationTest {
         requestContent.put("title", "Sample title.");
 
         Book b1 = new Book();
-        b1.setBookID(1L);
+        b1.setId(1L);
         b1.setTitle("Sample title.");
 
         //FORCE throw NoResourceFoundException.
@@ -225,7 +225,7 @@ class BookControllerIntegrationTest {
         requestContent.put("title", "Sample title.");
 
         Book b1 = new Book();
-        b1.setBookID(1L);
+        b1.setId(1L);
         b1.setTitle("Sample title.");
 
         //FORCE throw ValidationException

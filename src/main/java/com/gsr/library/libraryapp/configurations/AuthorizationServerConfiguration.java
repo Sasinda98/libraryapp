@@ -1,29 +1,27 @@
 package com.gsr.library.libraryapp.configurations;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 
+import javax.sql.DataSource;
+
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter implements AuthorizationServerConfigurer {
+public class AuthorizationServerConfiguration implements AuthorizationServerConfigurer {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-    private PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    DataSource dataSource;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -32,18 +30,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        //clients are stored in database
         clients
-                .inMemory()
-                .withClient("web")
-                .secret(passwordEncoder.encode("pass"))
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-                .scopes("READ", "WRITE")
-                .accessTokenValiditySeconds(3600);
+                .jdbc(dataSource).passwordEncoder(passwordEncoder);
     }
-
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager);
     }
-
 }
