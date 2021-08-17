@@ -25,7 +25,7 @@ public class Book {
     private Integer isbn;
 
     @ManyToMany(mappedBy = "borrowedBooks")
-    private Set<MUser> borrowers = new HashSet<>();
+    private Set<User> borrowers = new HashSet<>();
 
     public Book() {
     }
@@ -71,7 +71,7 @@ public class Book {
         this.quantity = quantity;
     }
 
-    public Set<MUser> getBorrowers() {
+    public Set<User> getBorrowers() {
         return borrowers;
     }
 

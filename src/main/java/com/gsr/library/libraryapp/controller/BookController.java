@@ -3,7 +3,7 @@ package com.gsr.library.libraryapp.controller;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gsr.library.libraryapp.domain.Book;
-import com.gsr.library.libraryapp.domain.MUser;
+import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.domain.dto.APISuccessResponseDto;
 import com.gsr.library.libraryapp.domain.dto.BookDto;
 import com.gsr.library.libraryapp.domain.dto.ListUserDto;
@@ -42,8 +42,8 @@ public class BookController {
     @ApiOperation(value = "Gets a list of users who has borrrowed a specific book.")
     @GetMapping("/{book_id}/borrowers")
     public ListUserDto getBorrowersForABook(@PathVariable(name = "book_id") Long book_id){
-        List<MUser> MUsers = bookServiceImpl.getBorrowersForABookByBookID(book_id);
-        List<UserDto> userDtos = MUsers.stream().map(user1 -> modelMapper.map(user1, UserDto.class)).collect(Collectors.toList());
+        List<User> Users = bookServiceImpl.getBorrowersForABookByBookID(book_id);
+        List<UserDto> userDtos = Users.stream().map(user1 -> modelMapper.map(user1, UserDto.class)).collect(Collectors.toList());
         return new ListUserDto(userDtos.size(), userDtos);
     }
 

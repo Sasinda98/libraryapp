@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
-public class MUser {
+@Entity(name = "MUser")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userID;
@@ -33,10 +33,10 @@ public class MUser {
     @JsonIgnore
     private Set<Book> borrowedBooks = new HashSet<>();
 
-    public MUser() {
+    public User() {
     }
 
-    public MUser(String firstName, String lastName, String email) {
+    public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -96,8 +96,8 @@ public class MUser {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MUser MUser = (MUser) o;
-        return Objects.equals(userID, MUser.userID);
+        User User = (User) o;
+        return Objects.equals(userID, User.userID);
     }
 
     @Override

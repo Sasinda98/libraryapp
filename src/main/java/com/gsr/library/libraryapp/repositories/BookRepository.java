@@ -1,7 +1,7 @@
 package com.gsr.library.libraryapp.repositories;
 
 import com.gsr.library.libraryapp.domain.Book;
-import com.gsr.library.libraryapp.domain.MUser;
+import com.gsr.library.libraryapp.domain.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -15,7 +15,7 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 
     @Query(value = "SELECT u FROM MUser u\n" +
         "JOIN u.borrowedBooks b WHERE b.bookID = ?1")
-    List<MUser> getBorrowersForABookByBookID(Long bookID);
+    List<User> getBorrowersForABookByBookID(Long bookID);
 
     @Query(value = "SELECT CASE WHEN COUNT(u) > 0 \n" +
             "THEN TRUE \n" +

@@ -1,7 +1,7 @@
 package com.gsr.library.libraryapp.cmdrunner;
 
 import com.gsr.library.libraryapp.domain.Book;
-import com.gsr.library.libraryapp.domain.MUser;
+import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.repositories.BookRepository;
 import com.gsr.library.libraryapp.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -27,9 +27,9 @@ public class CMDRunner implements CommandLineRunner {
         Book b5 = new Book("Glass Hotel", "Science Fiction", 5, 5678);
         Book b6 = new Book("Sherlock Holmes", "Mystery", 8, 6789);
 
-        MUser u1 = new MUser("Gayal", "Rupasinghe", "gayal@domain.com");
-        MUser u2 = new MUser("John", "Doe", "john@domain.com");
-        MUser u3 = new MUser("Lewis", "Hamilton", "lewis@domain.com");
+        User u1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
+        User u2 = new User("John", "Doe", "john@domain.com");
+        User u3 = new User("Lewis", "Hamilton", "lewis@domain.com");
 
         b1.getBorrowers().add(u1);
         u1.getBorrowedBooks().add(b1);

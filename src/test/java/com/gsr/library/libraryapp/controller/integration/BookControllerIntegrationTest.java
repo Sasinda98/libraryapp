@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gsr.library.libraryapp.controller.BookController;
 import com.gsr.library.libraryapp.domain.Book;
-import com.gsr.library.libraryapp.domain.MUser;
+import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.domain.dto.APISuccessResponseDto;
 import com.gsr.library.libraryapp.domain.dto.BookDto;
 import com.gsr.library.libraryapp.domain.dto.ListUserDto;
@@ -55,11 +55,11 @@ class BookControllerIntegrationTest {
     @Test
     void getBorrowersForABookBorrowersAvail() throws Exception {
         //given
-        MUser u1 = new MUser("Gayal", "Rupasinghe", "gayal@domain.com");
+        User u1 = new User("Gayal", "Rupasinghe", "gayal@domain.com");
         u1.setUserID(1L);
-        MUser u2 = new MUser("John", "Doe", "john@domain.com");
+        User u2 = new User("John", "Doe", "john@domain.com");
         u2.setUserID(2L);
-        List<MUser> usersList = new ArrayList<>();
+        List<User> usersList = new ArrayList<>();
         usersList.add(u1);
         usersList.add(u2);
 

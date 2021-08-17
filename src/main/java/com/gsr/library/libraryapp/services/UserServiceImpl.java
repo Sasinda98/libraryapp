@@ -1,7 +1,7 @@
 package com.gsr.library.libraryapp.services;
 
 import com.gsr.library.libraryapp.domain.Book;
-import com.gsr.library.libraryapp.domain.MUser;
+import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.exceptions.NoResourceFoundException;
 import com.gsr.library.libraryapp.exceptions.OperationStoppedException;
 import com.gsr.library.libraryapp.repositories.UserRepository;
@@ -22,26 +22,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<MUser> getUsers(){
-        return (List<MUser>) userRepository.findAll();
+    public List<User> getUsers(){
+        return (List<User>) userRepository.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<MUser> getUserByID(Long userID) {
+    public Optional<User> getUserByID(Long userID) {
         return userRepository.findById(userID);
     }
 
     @Override
     @Transactional
-    public void updateUser(MUser MUser) throws OperationStoppedException {
+    public void updateUser(User User) throws OperationStoppedException {
         //check for user.
-        Optional<MUser> optionalUser = userRepository.findById(MUser.getUserID());
+        Optional<User> optionalUser = userRepository.findById(User.getUserID());
 
         if(!optionalUser.isPresent())
             throw new NoResourceFoundException("User not found to update details.");
 
-        userRepository.save(MUser);
+        userRepository.save(User);
     }
 
     @Override

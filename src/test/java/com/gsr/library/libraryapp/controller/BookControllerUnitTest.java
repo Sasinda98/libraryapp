@@ -3,7 +3,7 @@ package com.gsr.library.libraryapp.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gsr.library.libraryapp.domain.Book;
-import com.gsr.library.libraryapp.domain.MUser;
+import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.domain.dto.APISuccessResponseDto;
 import com.gsr.library.libraryapp.domain.dto.BookDto;
 import com.gsr.library.libraryapp.domain.dto.ListUserDto;
@@ -47,14 +47,14 @@ class BookControllerUnitTest {
         //given
         Long bookID = 1L;
         Long userID = 2L;
-        MUser MUser = new MUser("Gayal", "Rupasinghe", "gayal@domain.com");
-        MUser.setUserID(userID);
+        User User = new User("Gayal", "Rupasinghe", "gayal@domain.com");
+        User.setUserID(userID);
 
-        ArrayList<MUser> MUserArrayList = new ArrayList<>();
-        MUserArrayList.add(MUser);
+        ArrayList<User> UserArrayList = new ArrayList<>();
+        UserArrayList.add(User);
 
         given(testBookService.getBorrowersForABookByBookID(bookID))
-                .willReturn(MUserArrayList);
+                .willReturn(UserArrayList);
 
         //when
         ListUserDto actualReturn = testBookController.getBorrowersForABook(bookID);
@@ -66,7 +66,7 @@ class BookControllerUnitTest {
         Long bookIDCaptured = bookIDCaptor.getValue();
 
         assertThat(bookIDCaptured).isEqualTo(bookID);
-        assertThat(actualReturn.getNumberOfUsers()).isEqualTo(MUserArrayList.size());
+        assertThat(actualReturn.getNumberOfUsers()).isEqualTo(UserArrayList.size());
         assertThat(actualReturn
                 .getUsers()
                 .get(0)

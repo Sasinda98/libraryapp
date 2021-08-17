@@ -1,6 +1,6 @@
 package com.gsr.library.libraryapp.repositories;
 
-import com.gsr.library.libraryapp.domain.MUser;
+import com.gsr.library.libraryapp.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -10,12 +10,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
-class MUserRepositoryTest {
+class UserRepositoryTest {
 
     private final UserRepository testUserRepository;
 
     @Autowired
-    public MUserRepositoryTest(UserRepository testUserRepository) {
+    public UserRepositoryTest(UserRepository testUserRepository) {
         this.testUserRepository = testUserRepository;
     }
 
@@ -23,7 +23,7 @@ class MUserRepositoryTest {
     void checkForAUserThatExistsByEmail() {
         //given
         String email = "gayal@domain.com";
-        MUser u1 = new MUser("Gayal", "Rupasinghe", email);
+        User u1 = new User("Gayal", "Rupasinghe", email);
         testUserRepository.save(u1);
         //when
         boolean userExists = testUserRepository.checkIfUserExistByEmail(email);

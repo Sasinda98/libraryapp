@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
-class MUserControllerIntegrationTest {
+class UserControllerIntegrationTest {
 
     @Autowired private MockMvc mockMvc;
     @MockBean private UserService userService;
