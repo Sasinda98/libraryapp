@@ -7,6 +7,7 @@ import com.gsr.library.libraryapp.domain.dto.ListBookDto;
 import com.gsr.library.libraryapp.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,7 @@ public class UserController {
 
     @ApiOperation(value = "Gets a list of books borrowed by a specific user.")
     @GetMapping("/{user_id}/books")
+    @PreAuthorize("hasAnyRole('ROLE_librarian', 'ROLE_teacher')")
     public ListBookDto getBooksBorrowedByAUser(@PathVariable(name = "user_id") Long userID){
         List<Book> books = userServiceImpl.getBooksBorrowedByUserID(userID);
         List<BookDto> bookDtos = books.stream().map(book -> modelMapper.map(book, BookDto.class)).collect(Collectors.toList());

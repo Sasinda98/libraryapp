@@ -37,15 +37,16 @@ public class BookController {
 
     @ApiIgnore
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('create_profile')")
     public List<Book> getBooks() {
         System.out.println(SecurityContextHolder.getContext().getAuthentication());
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getCredentials());
 
         return bookServiceImpl.getAllBooks();
     }
 
     @ApiOperation(value = "Gets a list of users who has borrrowed a specific book.")
     @GetMapping("/{book_id}/borrowers")
+    @PreAuthorize("hasAnyRole('ROLE_librarian', 'ROLE_teacher')")
     public ListUserDto getBorrowersForABook(@PathVariable(name = "book_id") Long book_id){
         List<User> Users = bookServiceImpl.getBorrowersForABookByBookID(book_id);
         List<UserDto> userDtos = Users.stream().map(user1 -> modelMapper.map(user1, UserDto.class)).collect(Collectors.toList());
@@ -58,6 +59,7 @@ public class BookController {
             @ApiResponse(code = 409, message = "Book already borrowed, cannot delete until all books are returned.", response = APIExceptionTemplate.class)
     })
     @DeleteMapping(value = "/{book_id}")
+    @PreAuthorize("hasRole('ROLE_librarian')")
     public BookDto deleteABook(@PathVariable("book_id") Long bookID){
         Book deletedBook = bookServiceImpl.deleteBook(bookID);
         return modelMapper.map(deletedBook, BookDto.class);
@@ -70,6 +72,7 @@ public class BookController {
             @ApiResponse(code = 409, message = "Book is not available to borrow (qty = 0) or is already borrowed.", response = APIExceptionTemplate.class),
     })
     @PostMapping(value = "/borrow-info")
+    @PreAuthorize("hasAuthority('borrow_book')")
     public APISuccessResponseDto borrowBook(@RequestBody Map<String, Object> payload){
         try {
             Long userID = ((Number) payload.get("user_id")).longValue();
@@ -92,6 +95,7 @@ public class BookController {
             @ApiResponse(code = 409, message = "Only borrowed books can be returned.", response = APIExceptionTemplate.class),
     })
     @PostMapping(value = "/return-info")
+    @PreAuthorize("hasAuthority('return_book')")
     public APISuccessResponseDto returnBook (@RequestBody Map<String, Object> payload){
         try {
             Long userID = ((Number) payload.get("user_id")).longValue();
@@ -112,6 +116,7 @@ public class BookController {
             @ApiResponse(code = 400, message = "Bad request.", response = APIExceptionTemplate.class),
     })
     @PutMapping
+    @PreAuthorize("hasRole('ROLE_librarian')")
     public APISuccessResponseDto updateBook (@RequestBody Map<String, Object> payload){
         try {
             ObjectMapper objectMapper = new ObjectMapper();
