@@ -49,15 +49,4 @@ public class UserServiceImpl implements UserService {
     public List<Book> getBooksBorrowedByUserID(Long userID) {
         return userRepository.getBooksBorrowedByUserID(userID);
     }
-
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        System.out.println("PASSED IN USERNAME: " + username);
-//        Optional<User> userOptional = userRepository.findByUsername(username);
-//        userOptional.orElseThrow(() -> new UsernameNotFoundException("Username or password incorrect."));
-//
-//        UserDetails userDetails = new AuthUserDetail(userOptional.get());
-//        new AccountStatusUserDetailsChecker().check(userDetails);
-//        return userDetails;
-//    }
 }
