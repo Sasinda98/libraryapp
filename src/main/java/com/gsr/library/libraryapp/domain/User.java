@@ -34,26 +34,6 @@ public class User implements Serializable {
     @JsonIgnore
     private Set<Book> borrowedBooks = new HashSet<>();
 
-//
-    @Column(name = "username")
-    private String username;
-    @Column(name = "password")
-    private String password;
-    @Column(name = "enabled")
-    private boolean enabled;
-    @Column(name = "accountNonExpired")
-    private boolean accountNonExpired;
-    @Column(name = "credentialsNonExpired")
-    private boolean credentialsNonExpired;
-    @Column(name = "accountNonLocked")
-    private boolean accountNonLocked;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "role_user", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-//            inverseJoinColumns = {
-//                    @JoinColumn(name = "role_id", referencedColumnName = "id")})
-    @JoinTable(name = "role_user", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<Role> roles;
 
     public User() {
     }
@@ -66,15 +46,6 @@ public class User implements Serializable {
         this.createdAt = u.getCreatedAt();
         this.modifiedAt = u.getModifiedAt();
         this.borrowedBooks = u.getBorrowedBooks();
-
-        this.username = u.getUsername();
-        this.password = u.getPassword();
-        this.enabled = u.isEnabled();
-        this.credentialsNonExpired = u.isCredentialsNonExpired();
-        this.accountNonExpired = u.isAccountNonExpired();
-        this.accountNonLocked = u.isAccountNonLocked();
-        this.roles = u.getRoles();
-
     }
 
     public User(String firstName, String lastName, String email) {
@@ -141,57 +112,6 @@ public class User implements Serializable {
         this.borrowedBooks = borrowedBooks;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public boolean isAccountNonExpired() {
-        return accountNonExpired;
-    }
-
-    public void setAccountNonExpired(boolean accountNonExpired) {
-        this.accountNonExpired = accountNonExpired;
-    }
-
-    public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired;
-    }
-
-    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
-        this.credentialsNonExpired = credentialsNonExpired;
-    }
-
-    public boolean isAccountNonLocked() {
-        return accountNonLocked;
-    }
-
-    public void setAccountNonLocked(boolean accountNonLocked) {
-        this.accountNonLocked = accountNonLocked;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -21,6 +21,4 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query(value = "SELECT b FROM Book b\n" +
             "JOIN b.borrowers u WHERE u.id = ?1")
     List<Book> getBooksBorrowedByUserID(Long userID);
-
-    Optional<User> findByUsername(String username);
 }
