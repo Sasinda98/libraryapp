@@ -26,10 +26,4 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/webjars/**"
                 );
     }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin().disable();
-        http.httpBasic().disable();
-    }
 }
