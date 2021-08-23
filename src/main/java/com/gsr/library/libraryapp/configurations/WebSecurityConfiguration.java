@@ -19,10 +19,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .mvcMatchers(HttpMethod.OPTIONS, "/**");
         web
                 .ignoring()
-                .mvcMatchers("/swagger-ui.html/**",
+                .mvcMatchers("/swagger-ui.html", "/swagger-ui.html/**",
                         "/configuration/**",
                         "/swagger-resources/**",
-                        "/v2/api-docs",
+                        "/v3/api-docs",
                         "/webjars/**"
                 );
     }
