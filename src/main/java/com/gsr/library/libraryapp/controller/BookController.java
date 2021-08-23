@@ -14,8 +14,10 @@ import com.gsr.library.libraryapp.services.BookService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.AuthorizationScope;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.web.servlet.oauth2.client.OAuth2ClientSecurityMarker;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -37,6 +39,7 @@ public class BookController {
 
     @ApiIgnore
     @GetMapping
+    @PreAuthorize("#oauth2.hasScope('READ')")
     public List<Book> getBooks() {
         System.out.println(SecurityContextHolder.getContext().getAuthentication());
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getCredentials());
@@ -46,7 +49,7 @@ public class BookController {
 
     @ApiOperation(value = "Gets a list of users who has borrrowed a specific book.")
     @GetMapping("/{book_id}/borrowers")
-    @PreAuthorize("hasAnyRole('ROLE_librarian', 'ROLE_teacher')")
+    @PreAuthorize("hasAnyRole('ROLE_librarian', 'ROLE_teacher') || #oauth2.hasScope('READ')")
     public ListUserDto getBorrowersForABook(@PathVariable(name = "book_id") Long book_id){
         List<User> Users = bookServiceImpl.getBorrowersForABookByBookID(book_id);
         List<UserDto> userDtos = Users.stream().map(user1 -> modelMapper.map(user1, UserDto.class)).collect(Collectors.toList());
@@ -59,7 +62,7 @@ public class BookController {
             @ApiResponse(code = 409, message = "Book already borrowed, cannot delete until all books are returned.", response = APIExceptionTemplate.class)
     })
     @DeleteMapping(value = "/{book_id}")
-    @PreAuthorize("hasRole('ROLE_librarian')")
+    @PreAuthorize("hasRole('ROLE_librarian') || #oauth2.hasScope('WRITE')")
     public BookDto deleteABook(@PathVariable("book_id") Long bookID){
         Book deletedBook = bookServiceImpl.deleteBook(bookID);
         return modelMapper.map(deletedBook, BookDto.class);
@@ -72,7 +75,7 @@ public class BookController {
             @ApiResponse(code = 409, message = "Book is not available to borrow (qty = 0) or is already borrowed.", response = APIExceptionTemplate.class),
     })
     @PostMapping(value = "/borrow-info")
-    @PreAuthorize("hasAuthority('borrow_book')")
+    @PreAuthorize("hasAuthority('borrow_book') || #oauth2.hasScope('WRITE')")
     public APISuccessResponseDto borrowBook(@RequestBody Map<String, Object> payload){
         try {
             Long userID = ((Number) payload.get("user_id")).longValue();
@@ -95,7 +98,7 @@ public class BookController {
             @ApiResponse(code = 409, message = "Only borrowed books can be returned.", response = APIExceptionTemplate.class),
     })
     @PostMapping(value = "/return-info")
-    @PreAuthorize("hasAuthority('return_book')")
+    @PreAuthorize("hasAuthority('return_book') || #oauth2.hasScope('WRITE')")
     public APISuccessResponseDto returnBook (@RequestBody Map<String, Object> payload){
         try {
             Long userID = ((Number) payload.get("user_id")).longValue();
@@ -116,7 +119,7 @@ public class BookController {
             @ApiResponse(code = 400, message = "Bad request.", response = APIExceptionTemplate.class),
     })
     @PutMapping
-    @PreAuthorize("hasRole('ROLE_librarian')")
+    @PreAuthorize("hasRole('ROLE_librarian') || #oauth2.hasScope('WRITE')")
     public APISuccessResponseDto updateBook (@RequestBody Map<String, Object> payload){
         try {
             ObjectMapper objectMapper = new ObjectMapper();

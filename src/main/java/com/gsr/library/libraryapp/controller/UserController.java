@@ -38,7 +38,7 @@ public class UserController {
 
     @ApiOperation(value = "Gets a list of books borrowed by a specific user.")
     @GetMapping("/{user_id}/books")
-    @PreAuthorize("hasAnyRole('ROLE_librarian', 'ROLE_teacher')")
+    @PreAuthorize("hasAnyRole('ROLE_librarian', 'ROLE_teacher') || #oauth2.hasScope('READ')")
     public ListBookDto getBooksBorrowedByAUser(@PathVariable(name = "user_id") Long userID){
         List<Book> books = userServiceImpl.getBooksBorrowedByUserID(userID);
         List<BookDto> bookDtos = books.stream().map(book -> modelMapper.map(book, BookDto.class)).collect(Collectors.toList());
