@@ -13,10 +13,12 @@ import com.gsr.library.libraryapp.exceptions.exceptiontemplates.APIExceptionTemp
 import com.gsr.library.libraryapp.services.BookService;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,10 +49,13 @@ public class BookController {
         return bookServiceImpl.getAllBooks();
     }
 
-    @Operation(summary = "Gets a list of users who has borrrowed a specific book.")
+    @Operation(summary = "Gets a list of users who has borrowed a specific book.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lists the borrowers of the book.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ListUserDto.class)) }),
+    })
     @GetMapping("/{book_id}/borrowers")
     @PreAuthorize("hasAnyRole('ROLE_librarian', 'ROLE_teacher') || #oauth2.hasScope('READ')")
-    public ListUserDto getBorrowersForABook(@PathVariable(name = "book_id") Long book_id){
+    public ListUserDto getBorrowersForABook(@Parameter(description = "The book id of the book to list borrowers. ", required = true) @PathVariable(name = "book_id") Long book_id){
         List<User> Users = bookServiceImpl.getBorrowersForABookByBookID(book_id);
         List<UserDto> userDtos = Users.stream().map(user1 -> modelMapper.map(user1, UserDto.class)).collect(Collectors.toList());
         return new ListUserDto(userDtos.size(), userDtos);
@@ -58,8 +63,10 @@ public class BookController {
 
     @Operation(summary = "Deletes a book")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "404", description = "No such book to delete.", content = @Content(schema = @Schema(implementation = APIExceptionTemplate.class))),
-            @ApiResponse(responseCode = "409", description = "Book already borrowed, cannot delete until all books are returned.", content = @Content(schema = @Schema(implementation = APIExceptionTemplate.class))),
+            @ApiResponse(responseCode = "200", description = "Book deleted successfully.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)) }),
+            @ApiResponse(responseCode = "404", description = "No such book to delete.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APIExceptionTemplate.class)) }),
+            @ApiResponse(responseCode = "409", description = "Book already borrowed, cannot delete until all books are returned.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APIExceptionTemplate.class)) }),
+
     })
     @DeleteMapping(value = "/{book_id}")
     @PreAuthorize("hasRole('ROLE_librarian') || #oauth2.hasScope('WRITE')")
@@ -70,9 +77,10 @@ public class BookController {
 
     @Operation(summary = "Allows a user to borrow a book.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "404", description = "No such book or user.", content = @Content(schema = @Schema(implementation = APIExceptionTemplate.class))),
-            @ApiResponse(responseCode = "400", description = "Bad request.", content = @Content(schema = @Schema(implementation = APIExceptionTemplate.class))),
-            @ApiResponse(responseCode = "409", description = "Book is not available to borrow (qty = 0) or is already borrowed.", content = @Content(schema = @Schema(implementation = APIExceptionTemplate.class))),
+            @ApiResponse(responseCode = "200", description = "Book borrowed successfully.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponseDto.class)) }),
+            @ApiResponse(responseCode = "404", description = "No such book or user.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APIExceptionTemplate.class)) }),
+            @ApiResponse(responseCode = "400", description = "Bad request.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APIExceptionTemplate.class)) }),
+            @ApiResponse(responseCode = "409", description = "Book is not available to borrow (qty = 0) or is already borrowed.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APIExceptionTemplate.class)) }),
     })
     @PostMapping(value = "/borrow-info")
     @PreAuthorize("hasAuthority('borrow_book') || #oauth2.hasScope('WRITE')")
@@ -93,9 +101,10 @@ public class BookController {
 
     @Operation(summary = "Allows a user to return a book.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "404", description = "No such book or user.", content = @Content(schema = @Schema(implementation = APIExceptionTemplate.class))),
-            @ApiResponse(responseCode = "400", description = "Bad request.", content = @Content(schema = @Schema(implementation = APIExceptionTemplate.class))),
-            @ApiResponse(responseCode = "409", description = "Only borrowed books can be returned.", content = @Content(schema = @Schema(implementation = APIExceptionTemplate.class))),
+            @ApiResponse(responseCode = "200", description = "Book returned successfully.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponseDto.class)) }),
+            @ApiResponse(responseCode = "404", description = "No such book or user.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APIExceptionTemplate.class)) }),
+            @ApiResponse(responseCode = "400", description = "Bad request.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APIExceptionTemplate.class)) }),
+            @ApiResponse(responseCode = "409", description = "Only borrowed books can be returned.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APIExceptionTemplate.class)) }),
     })
     @PostMapping(value = "/return-info")
     @PreAuthorize("hasAuthority('return_book') || #oauth2.hasScope('WRITE')")
@@ -115,8 +124,9 @@ public class BookController {
 
     @Operation(summary = "Allows a user to update details of a book.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "404", description = "No such book to update.", content = @Content(schema = @Schema(implementation = APIExceptionTemplate.class))),
-            @ApiResponse(responseCode = "400", description = "Bad request.", content = @Content(schema = @Schema(implementation = APIExceptionTemplate.class))),
+            @ApiResponse(responseCode = "200", description = "Book updated successfully.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponseDto.class)) }),
+            @ApiResponse(responseCode = "404", description = "No such book to update.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APIExceptionTemplate.class)) }),
+            @ApiResponse(responseCode = "400", description = "Bad request.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APIExceptionTemplate.class)) }),
     })
     @PutMapping
     @PreAuthorize("hasRole('ROLE_librarian') || #oauth2.hasScope('WRITE')")

@@ -4,9 +4,14 @@ import com.gsr.library.libraryapp.domain.Book;
 import com.gsr.library.libraryapp.domain.User;
 import com.gsr.library.libraryapp.domain.dto.BookDto;
 import com.gsr.library.libraryapp.domain.dto.ListBookDto;
+import com.gsr.library.libraryapp.domain.dto.ListUserDto;
 import com.gsr.library.libraryapp.services.UserService;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +42,9 @@ public class UserController {
 
 
     @Operation(summary = "Gets a list of books borrowed by a specific user.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lists the books borrowed by user.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ListBookDto.class)) }),
+    })
     @GetMapping("/{user_id}/books")
     @PreAuthorize("hasAnyRole('ROLE_librarian', 'ROLE_teacher') || #oauth2.hasScope('READ')")
     public ListBookDto getBooksBorrowedByAUser(@PathVariable(name = "user_id") Long userID){
