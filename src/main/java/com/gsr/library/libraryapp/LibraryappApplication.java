@@ -11,7 +11,7 @@ import org.springframework.security.config.web.servlet.oauth2.resourceserver.OAu
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @SpringBootApplication
-@EnableResourceServer
+//@EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @OpenAPIDefinition(info = @Info(title = "Libaray API", description = "This API models a library.", version = "1.0.0"))
 public class LibraryappApplication {
