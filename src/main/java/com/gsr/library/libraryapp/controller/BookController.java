@@ -14,10 +14,12 @@ import com.gsr.library.libraryapp.services.BookService;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,8 +30,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
 @RestController
 @RequestMapping(path = "/books")
+@Tag(name="books")
 public class BookController {
     private final BookService bookServiceImpl;
     private final ModelMapper modelMapper;
@@ -49,7 +53,7 @@ public class BookController {
         return bookServiceImpl.getAllBooks();
     }
 
-    @Operation(summary = "Gets a list of users who has borrowed a specific book.")
+    @Operation(summary = "Gets a list of users who has borrowed a specific book.", security = { @SecurityRequirement(name = "Library Authorization", scopes = { "READ" }) })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lists the borrowers of the book.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ListUserDto.class)) }),
     })
@@ -61,7 +65,7 @@ public class BookController {
         return new ListUserDto(userDtos.size(), userDtos);
     }
 
-    @Operation(summary = "Deletes a book")
+    @Operation(summary = "Deletes a book", security = { @SecurityRequirement(name = "Library Authorization", scopes = { "WRITE" }) })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Book deleted successfully.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)) }),
             @ApiResponse(responseCode = "404", description = "No such book to delete.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APIExceptionTemplate.class)) }),
@@ -75,7 +79,7 @@ public class BookController {
         return modelMapper.map(deletedBook, BookDto.class);
     }
 
-    @Operation(summary = "Allows a user to borrow a book.")
+    @Operation(summary = "Allows a user to borrow a book.", security = { @SecurityRequirement(name = "Library Authorization", scopes = { "WRITE" }) })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Book borrowed successfully.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponseDto.class)) }),
             @ApiResponse(responseCode = "404", description = "No such book or user.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APIExceptionTemplate.class)) }),
@@ -99,7 +103,7 @@ public class BookController {
         return new APISuccessResponseDto("Book successfully borrowed.");
     }
 
-    @Operation(summary = "Allows a user to return a book.")
+    @Operation(summary = "Allows a user to return a book.", security = { @SecurityRequirement(name = "Library Authorization", scopes = { "WRITE" }) })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Book returned successfully.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponseDto.class)) }),
             @ApiResponse(responseCode = "404", description = "No such book or user.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APIExceptionTemplate.class)) }),
@@ -122,7 +126,7 @@ public class BookController {
         return new APISuccessResponseDto("Book successfully returned.");
     }
 
-    @Operation(summary = "Allows a user to update details of a book.")
+    @Operation(summary = "Allows a user to update details of a book.", security = { @SecurityRequirement(name = "Library Authorization", scopes = { "WRITE" }) })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Book updated successfully.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APISuccessResponseDto.class)) }),
             @ApiResponse(responseCode = "404", description = "No such book to update.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = APIExceptionTemplate.class)) }),

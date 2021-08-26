@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +42,7 @@ public class UserController {
     }
 
 
-    @Operation(summary = "Gets a list of books borrowed by a specific user.")
+    @Operation(summary = "Gets a list of books borrowed by a specific user.", security = { @SecurityRequirement(name = "Library Authorization", scopes = { "READ" }) })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lists the books borrowed by user.", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ListBookDto.class)) }),
     })

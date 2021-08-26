@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 
 @SpringBootApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@OpenAPIDefinition(info = @Info(title = "Libaray API", description = "This API models a library.", version = "1.0.0"))
 public class LibraryappApplication {
 
 	public static void main(String[] args) {
